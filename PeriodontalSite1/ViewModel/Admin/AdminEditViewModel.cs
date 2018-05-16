@@ -19,8 +19,12 @@ namespace PeriodontalSite1.ViewModel.Admin
         public string Address { get; set; }
         [Display(Name = "Тип пользователя")]
         public UserType UserType { get; set; }
-        public IList<string> Members { get; set; }
         [Required]
+        [Display(Name = "Роли")]
+        public IList<string> Members { get; set; }
+
+
+
         public List<ApplicationRole> Roles { get; set; }
     }
 }

@@ -80,9 +80,9 @@ namespace PeriodontalSite1.Controllers
 
                     foreach (var role in memberRole)
                     {
-                        if (!model.ActiveRole.Contains(role)) UserManager.RemoveFromRole(model.Id, role);
+                        if (!model.Members.Contains(role)) UserManager.RemoveFromRole(model.Id, role);
                     }
-                    foreach (var role in model.ActiveRole)
+                    foreach (var role in model.Members)
                     {
                         if (!memberRole.Contains(role)) UserManager.AddToRole(model.Id, role);
                     }

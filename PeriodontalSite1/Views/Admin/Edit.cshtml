@@ -39,32 +39,24 @@
         </div>
     </div>
     <div class="form-group">
-         
-        <table class="table">
-            @foreach (var role in Model.Roles)
-            {
-            <tr>
-                <td>
-                 @Html.Label(role.Name)
-                </td>
-            <td>
-                @if (Model.Members.Contains(role.Name))
-            {
-            <input type="checkbox" name="ActiveRole" value="@role.Name" checked>
-            }
-            else
-            {
-            <input type="checkbox" name="ActiveRole" value="@role.Name">
-            }
-            </td>
-
-        </tr>
-}
-        </table>
-        
+        <div class="col-md-4">
+            <ul class="list-group">
+                @for (var idx = 0; idx < Model.Roles.Count; idx++)
+                {
+                    var role = Model.Roles[idx];
+                    <li class="list-group-item">
+                        @role.Name
+                        <div class="material-switch pull-right">
+                            <input type="checkbox" name="@Html.NameFor(x => x.Members)" id="@Html.IdFor(x => Model.Roles[idx])" value="@role.Name" @(Model.Members.Contains(role.Name) ? "checked" : "")>
+                            <label class="label-success" for="@Html.IdFor(x => x.Roles[idx])"></label>
+                        </div>
+                    </li>
+                }
+            </ul>
+        </div>
+        <div style="clear: both"></div>
     </div>
     <br />
-
     <br />
     <div>
         <div>
