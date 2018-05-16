@@ -1,0 +1,38 @@
+﻿@using PagedList.Mvc
+@model PeriodontalSite1.ViewModel.TypeServicesViewModel
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h3>Виды типов услуг:</h3>
+
+@Html.ActionLink("Create", "Create")
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+
+    </tr>
+    @foreach (var item in Model.Types)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.TypeServicesId })
+
+                @Html.ActionLink("Delete", "Delete", new { id = item.TypeServicesId })
+            </td>
+        </tr>
+    }
+</table>
+Страница @(Model.Types.PageCount < Model.Types.PageNumber ? 0 : Model.Types.PageNumber) из @Model.Types.PageCount
+
+@Html.PagedListPager(Model.Types, page => Url.Action("Index", new { page }))

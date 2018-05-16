@@ -1,0 +1,39 @@
+﻿@model PeriodontalSite1.ViewModel.Account.CabinetViewModel
+@{
+    ViewBag.Title = "Данные пользователя";
+}
+
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+    <h4>Здравствуй @Model.FirstName  @Model.LastName @Model.MiddleName</h4>
+    <br>
+    
+    <div>
+        @Html.DisplayNameFor(Model => Model.Address)
+        @Model.Address
+    </div>
+    <br>
+    <div>
+        @Html.DisplayNameFor(Model => Model.PhoneNumber)
+        @Model.PhoneNumber
+    </div>
+    <br>
+    <div>
+        @Html.DisplayNameFor(Model => Model.Birth)
+        @Model.Birth.ToShortDateString()
+    </div>
+    <br>
+
+<div class="form-group">
+ 
+        @Html.ActionLink("Edit", "Edit")
+
+</div>
+}
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

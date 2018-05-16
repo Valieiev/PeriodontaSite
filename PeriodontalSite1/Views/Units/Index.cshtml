@@ -1,0 +1,38 @@
+﻿@model PeriodontalSite1.ViewModel.UnitsViewModel
+@using PagedList.Mvc
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h3>Виды вычислений материалов и услуг:</h3>
+
+@Html.ActionLink("Create", "Create")
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Description
+        </th>
+       
+    </tr>
+    @foreach (var item in Model.Units)
+    {
+        <tr>
+            <td>
+                @item.Name
+            </td>
+            <td>
+                @item.Description
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.UnitsId })
+
+                @Html.ActionLink("Delete", "Delete", new { id = item.UnitsId })
+            </td>
+        </tr>
+    }
+</table>
+Страница @(Model.Units.PageCount < Model.Units.PageNumber ? 0 : Model.Units.PageNumber) из @Model.Units.PageCount
+
+@Html.PagedListPager(Model.Units, page => Url.Action("Index", new { page }))

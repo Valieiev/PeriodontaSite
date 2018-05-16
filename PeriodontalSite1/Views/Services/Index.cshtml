@@ -1,0 +1,51 @@
+﻿@using PagedList.Mvc
+@model PeriodontalSite1.ViewModel.ServicesViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Услуги";
+}
+
+<h2>Услуги</h2>
+@Html.ActionLink("Create", "Create") |
+@Html.ActionLink("TypeServices", "Index", "TypeServices") |
+@Html.ActionLink("Units", "Index", "Units")
+<table class="table">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Type</th>
+        <th>Unit</th>
+        <th>From Date</th>
+        <th>To Date</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Services)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Type.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Unit.Name)
+            </td>
+          
+            <td>
+                @Html.ActionLink("Edit", $"Edit", new { id = item.ServicesId })
+
+                @Html.ActionLink("Delete", $"Delete", new { id = item.ServicesId }, new { onclick = "return confirm('Вы уверены?')", @class = "button" })
+            </td>
+        </tr>
+    }
+</table>
+Страница @(Model.Services.PageCount < Model.Services.PageNumber ? 0 : Model.Services.PageNumber) из @Model.Services.PageCount
+
+@Html.PagedListPager(Model.Services, page => Url.Action($"Index", new { page }))

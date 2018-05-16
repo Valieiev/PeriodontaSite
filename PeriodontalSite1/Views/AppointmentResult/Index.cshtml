@@ -1,0 +1,59 @@
+﻿@using PagedList.Mvc
+@model PeriodontalSite1.ViewModel.AppointmentsResult.AppointmentResultViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Расчет цены:";
+}
+
+<h2>Списко счетов</h2>
+@Html.ActionLink("Create", "Create") 
+<table class="table">
+    <tr>
+        <th>Доктор</th>
+        <th>Пациент</th>
+        <th>Дата</th>
+        <th>Услуга</th>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Сумма</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.AppointmentResults)
+    {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Appoitment.User.Surname)  @Html.DisplayFor(modelItem => item.Appoitment.User.Name) @Html.DisplayFor(modelItem => item.Appoitment.User.Patronymic)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Appoitment.Patient.LastName)  @Html.DisplayFor(modelItem => item.Appoitment.Patient.FirstName) @Html.DisplayFor(modelItem => item.Appoitment.Patient.MiddleName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Appoitment.VisitDate) 
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price.Services.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Price.Value)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Count)
+        </td>
+        <td>
+            @(item.Count * item.Price.Value)
+        </td>
+
+        <td>
+            @Html.ActionLink("Edit", $"Edit", new { id = item.AppointmentResultId })
+
+            @Html.ActionLink("Delete", $"Delete", new { id = item.AppointmentResultId }, new { onclick = "return confirm('Вы уверены?')", @class = "button" })
+        </td>
+    </tr>
+    }
+</table>
+Страница @(Model.AppointmentResults.PageCount < Model.AppointmentResults.PageNumber ? 0 : Model.AppointmentResults.PageNumber) из @Model.AppointmentResults.PageCount
+
+@Html.PagedListPager(Model.AppointmentResults, page => Url.Action($"Index", new { page }))

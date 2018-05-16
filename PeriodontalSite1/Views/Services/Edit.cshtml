@@ -1,0 +1,76 @@
+﻿@model PeriodontalSite1.ViewModel.ServicesCreateViewModel
+<h2>Создать услугу</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+
+            @using (Html.BeginForm("Edit", "Services", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+    {
+        <h4>Enter Reception Details Info</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+            @Html.HiddenFor(m => m.ServicesId)
+        <div class="form-group">
+            @Html.LabelFor(m => m.Name, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Name, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Name, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.Description, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.TextBoxFor(m => m.Description, new { @class = "form-control" })
+                @Html.ValidationMessageFor(m => m.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.TypeSelected, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.TypeSelected, new SelectList(Model.Types, "Value", "Text", new { htmlAttributes = new { @class = "form-control" } }))
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.UnitSelected, new { @class = "col-md-2 control-label" })
+            <div class="col-md-10">
+                @Html.DropDownListFor(model => model.UnitSelected, new SelectList(Model.Units, "Value", "Text", new { htmlAttributes = new { @class = "form-control" } }))
+            </div>
+        </div>
+
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                <input type="submit" value="Сохранить" class="btn btn-default" />
+            </div>
+        </div>
+}
+        </section>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+<script src="~/Scripts/locales/bootstrap-datepicker.ru.min.js" charset="UTF-8"></script>
+<script src="~/Scripts/bootstrap-datepicker.js" charset="UTF-8"></script>
+<script type="text/javascript">
+
+    $(function () {
+        $('#FromDate').datepicker({
+            minDate: Date.now()
+        });
+    });
+    $(function () {
+        $('#ToDate').datepicker({
+            minDate: Date.now()
+        });
+    });
+</script>
+
+

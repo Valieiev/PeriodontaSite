@@ -1,0 +1,43 @@
+﻿@using PagedList.Mvc
+@model PeriodontalSite1.ViewModel.Appointment.AppointmentsViewModel
+
+
+<h2>Записи</h2>
+@Html.ActionLink("Create", "Create")
+<table class="table">
+    <tr>
+        <th>Doctor</th>
+        <th>Patient</th>
+        <th>VisitDate</th>
+        <th>Status</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Appointments)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.User.Name)   @Html.DisplayFor(modelItem => item.User.Surname)
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Patient.FirstName)  @Html.DisplayFor(modelItem =>  item.Patient.LastName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.VisitDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.AppointmentStatus)
+            </td>
+
+            <td>
+                @Html.ActionLink("Edit", $"Edit", new { id = item.AppointmentsId })
+
+                @Html.ActionLink("Delete", $"Delete", new { id = item.AppointmentsId }, new { onclick = "return confirm('Вы уверены?')", @class = "button" })
+            </td>
+        </tr>
+    }
+</table>
+Страница @(Model.Appointments.PageCount < Model.Appointments.PageNumber ? 0 : Model.Appointments.PageNumber) из @Model.Appointments.PageCount
+
+@Html.PagedListPager(Model.Appointments, page => Url.Action($"Index", new { page }))

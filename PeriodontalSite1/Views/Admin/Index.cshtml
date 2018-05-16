@@ -1,0 +1,36 @@
+﻿@model PeriodontalSite1.ViewModel.Admin.AdminViewModel
+
+@{
+    ViewBag.Title = "Пользователи";
+}
+
+<h2>Пользователи</h2>
+@Html.ActionLink("Register", "Register", "Account") | 
+@Html.ActionLink("Roles", "Index","Roles")
+<table class="table">
+    <tr>
+        <th>@Html.DisplayNameFor(Model => Model.Email)</th>
+        <th>@Html.DisplayNameFor(Model => Model.FirstName)</th>
+        <th>@Html.DisplayNameFor(Model => Model.LastName)</th>
+        <th>@Html.DisplayNameFor(Model => Model.MiddleName)</th>
+        <th>@Html.DisplayNameFor(Model => Model.PhoneNumber)</th>
+        <th>@Html.DisplayNameFor(Model => Model.Address)</th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Users)
+    {
+        <tr>
+            <td>@item.Email</td>
+            <td>@item.FirstName</td>
+            <td>@item.LastName</td>
+            <td>@item.MiddleName</td>
+            <td>@item.PhoneNumber</td>
+            <td>@item.Address</td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id }) |
+                @Html.ActionLink("Delete", "Delete", new { id = item.Id }, new { onclick = "return confirm('Вы уверены?')", @class = "button" })
+            </td>
+        </tr>
+    }
+</table>

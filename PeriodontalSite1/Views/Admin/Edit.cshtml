@@ -1,0 +1,75 @@
+﻿@model PeriodontalSite1.ViewModel.Admin.AdminEditViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Edit";
+}
+
+<h2>Редактировать данные профиля</h2>
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div>
+    @Html.ValidationSummary(true, "")
+    @Html.HiddenFor(m => m.Id)
+
+
+    <br />
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserType, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EnumDropDownListFor(model => model.UserType, new { @class = "form-control" })
+        </div>
+    </div>
+    <br />
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+         
+        <table class="table">
+            @foreach (var role in Model.Roles)
+            {
+            <tr>
+                <td>
+                 @Html.Label(role.Name)
+                </td>
+            <td>
+                @if (Model.Members.Contains(role.Name))
+            {
+            <input type="checkbox" name="ActiveRole" value="@role.Name" checked>
+            }
+            else
+            {
+            <input type="checkbox" name="ActiveRole" value="@role.Name">
+            }
+            </td>
+
+        </tr>
+}
+        </table>
+        
+    </div>
+    <br />
+
+    <br />
+    <div>
+        <div>
+            <input type="submit" value="Сохранить" />
+        </div>
+    </div>
+</div>
+}

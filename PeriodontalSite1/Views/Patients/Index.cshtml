@@ -1,0 +1,56 @@
+﻿@model PeriodontalSite1.ViewModel.Appointment.PatientsViewModel
+@using PagedList.Mvc
+<link href="~/Content/PagedList.css" rel="stylesheet" type="text/css" />
+
+<h3>Список пациентов  :</h3>
+
+@Html.ActionLink("Create", "Create")
+
+<table class="table">
+    <tr>
+        <th>
+            Name
+        </th>
+        <th>
+            Last Name
+        </th>
+        <th>
+            Middle name
+        </th>
+        <th>
+            PhoneNumber
+        </th>
+        <th>
+            BirthDate
+        </th>
+
+    </tr>
+    @foreach (var item in Model.Patients)
+    {
+    <tr>
+        <td>
+            @item.FirstName
+        </td>
+        <td>
+            @item.LastName
+        </td>
+        <td>
+            @item.MiddleName
+        </td>
+        <td>
+            @item.PhoneNumber
+        </td>
+        <td>
+            @item.BirthDate
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.PatientsId })
+
+            @Html.ActionLink("Delete", "Delete", new { id = item.PatientsId })
+        </td>
+    </tr>
+    }
+</table>
+Страница @(Model.Patients.PageCount < Model.Patients.PageNumber ? 0 : Model.Patients.PageNumber) из @Model.Patients.PageCount
+
+@Html.PagedListPager(Model.Patients, page => Url.Action("Index", new { page }))

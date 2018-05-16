@@ -1,0 +1,39 @@
+﻿@model PeriodontalSite1.ViewModel.Appointment.AppointmentsViewModel
+<h2>Создать услугу</h2>
+
+<div class="row">
+    <div class="col-md-8">
+        <section id="loginForm">
+
+            @using (Html.BeginForm("Edit", "Appointments", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+            {
+                <h4>Enter Reception Details Info</h4>
+                <hr />
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                @Html.HiddenFor(m => m.AppointmentsId)
+                <div class="form-group">
+                    @Html.LabelFor(m => m.AppointmentStatus, new { @class = "col-md-2 control-label" })
+                    <div class="col-md-10">
+                        @Html.EnumDropDownListFor(model => model.AppointmentStatus, new { @class = "form-control" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Сохранить" class="btn btn-default" />
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+
+
