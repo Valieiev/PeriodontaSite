@@ -19,7 +19,7 @@ namespace PeriodontalSite1.Models
         {
             Database.SetInitializer<ApplicationContext>(null);
             Configuration.ProxyCreationEnabled = false;
-           Configuration.LazyLoadingEnabled = true;
+           Configuration.LazyLoadingEnabled = false;
         }
 
         public static ApplicationContext Create()

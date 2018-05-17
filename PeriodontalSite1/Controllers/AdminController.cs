@@ -50,45 +50,52 @@ namespace PeriodontalSite1.Controllers
         {
 
             var user = UserManager.FindById(id);
-            IList<string> member = UserManager.GetRoles(id);
-            var roles = RoleManager.Roles.ToList();
 
             AdminEditViewModel model = new AdminEditViewModel()
             {
+                Email = user.Email,
+                FirstName = user.FirstName,
+                LastName = user.LastName,
+                MiddleName = user.MiddleName,
+                Birth = user.Birth,
                 Address = user.Address,
                 UserType = user.TypeUser,
                 PhoneNumber = user.PhoneNumber,
-                Members = member,
-                Roles = roles
+                Members = UserRoleList(id),
+                Roles = RoleList()
             };
             return View(model);
         }
         [HttpPost]
-        public ActionResult Edit(AdminModificationModel model)
+        public ActionResult Edit(AdminEditViewModel model)
         {
             if (ModelState.IsValid)
             {
                 ApplicationUser user = UserManager.FindById(model.Id);
                 if (user != null)
-                {
+                {  
                     user.PhoneNumber = model.PhoneNumber;
                     user.Address = model.Address;
                     user.TypeUser = model.UserType;
+                    user.FirstName = model.FirstName;
+                    user.LastName = model.LastName;
+                    user.MiddleName = model.MiddleName;
+                    user.Birth = model.Birth;
                     IdentityResult result = UserManager.Update(user);
                     //Role
-                    List<string> memberRole = UserManager.GetRoles(model.Id).ToList();
+                    List<string> memberRole = UserRoleList(model.Id).ToList();
 
-                    foreach (var role in memberRole)
-                    {
-                        if (!model.Members.Contains(role)) UserManager.RemoveFromRole(model.Id, role);
-                    }
-                    foreach (var role in model.Members)
-                    {
-                        if (!memberRole.Contains(role)) UserManager.AddToRole(model.Id, role);
-                    }
+                   
                     if (result.Succeeded)
                     {
-
+                        foreach (var role in memberRole)
+                        {
+                            if (!model.Members.Contains(role)) UserManager.RemoveFromRole(model.Id, role);
+                        }
+                        foreach (var role in model.Members)
+                        {
+                            if (!memberRole.Contains(role)) UserManager.AddToRole(model.Id, role);
+                        }
                         return RedirectToAction(nameof(Index), "Admin");
                     }
                     else
@@ -102,18 +109,9 @@ namespace PeriodontalSite1.Controllers
                 }
             }
 
-            var redirectuser = UserManager.FindById(model.Id);
-            IList<string> member = UserManager.GetRoles(model.Id);
-            var roles = RoleManager.Roles.ToList();
-            ModelState.AddModelError("", "Роль не выбрана");
-            AdminEditViewModel view = new AdminEditViewModel()
-            {
-                Address = redirectuser.Address,
-                UserType = redirectuser.TypeUser,
-                PhoneNumber = redirectuser.PhoneNumber,
-                Members = member,
-                Roles = roles
-            };
+            AdminEditViewModel view = model; 
+            view.Roles = RoleList();
+            view.Members = UserRoleList(model.Id);
             return View(view);
         }
 
@@ -133,8 +131,17 @@ namespace PeriodontalSite1.Controllers
             return RedirectToAction(nameof(Index), "Admin");
         }
 
+        private List<ApplicationRole> RoleList()
+        {
+            return RoleManager.Roles.ToList();
+        }
+
+        private IList<string> UserRoleList(string id)
+        {
+            return UserManager.GetRoles(id);
+        }
 
 
-        
+
     }
 }

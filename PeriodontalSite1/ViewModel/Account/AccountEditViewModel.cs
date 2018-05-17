@@ -27,7 +27,7 @@ namespace PeriodontalSite1.ViewModel
 
 
         [Display(Name = "Дата рождения")]
-        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:dd.MM.yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Birth { get; set; }
 
         [Required]

@@ -31,8 +31,7 @@ namespace PeriodontalSite1
                       "~/Content/bootstrap.css",
                       "~/Content/bootstrap-datepicker.css",
                        "~/Content/bootstrap-datetimepicker.css",
-                      "~/Content/site.css",
-                        "~/Content/bootsnipp.css"));
+                      "~/Content/site.css"));
         }
     }
 }

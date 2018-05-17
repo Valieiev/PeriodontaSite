@@ -145,7 +145,7 @@ namespace PeriodontalSite1.Controllers
                 user.FirstName = model.FirstName;
                 user.LastName = model.LastName;
                 user.MiddleName = model.MiddleName;
-                if(model.Birth != Convert.ToDateTime("01.01.0001 0:00:00"))  user.Birth = model.Birth;
+               // if(model.Birth != Convert.ToDateTime("01.01.0001 0:00:00"))  user.Birth = model.Birth;
                 user.PhoneNumber = model.PhoneNumber;
                 user.Address = model.Address;
                 IdentityResult result =  UserManager.Update(user);

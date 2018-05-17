@@ -27,8 +27,6 @@ namespace PeriodontalSite1.AutoMapper.MapProfilers
             CreateMap<ApplicationUser, AdminEditViewModel>()
                .ReverseMap();
 
-               CreateMap<ApplicationUser, AdminModificationModel>()
-               .ReverseMap();
 
             CreateMap<Patients, PatientsViewModel>()
                 .ReverseMap();
