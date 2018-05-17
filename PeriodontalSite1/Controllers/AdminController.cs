@@ -1,16 +1,15 @@
-﻿using Microsoft.AspNet.Identity;
+﻿using System;
+using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using PagedList;
 using PeriodontalSite1.AutoMapper;
 using PeriodontalSite1.Models.Account;
 using PeriodontalSite1.Models.Users;
 using PeriodontalSite1.ViewModel.Admin;
-using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using System.Web.Security;
 
 namespace PeriodontalSite1.Controllers
 {
@@ -48,11 +47,10 @@ namespace PeriodontalSite1.Controllers
 
         public ActionResult Edit(string id)
         {
-
             var user = UserManager.FindById(id);
-
-            AdminEditViewModel model = new AdminEditViewModel()
+            var model = new AdminEditViewModel
             {
+                Id = id,
                 Email = user.Email,
                 FirstName = user.FirstName,
                 LastName = user.LastName,
@@ -61,9 +59,9 @@ namespace PeriodontalSite1.Controllers
                 Address = user.Address,
                 UserType = user.TypeUser,
                 PhoneNumber = user.PhoneNumber,
-                Members = UserRoleList(id),
-                Roles = RoleList()
-            };
+                Members = UserManager.GetRoles(id)
+        };
+            PrepareAdminEditViewModel(model);
             return View(model);
         }
         [HttpPost]
@@ -83,7 +81,7 @@ namespace PeriodontalSite1.Controllers
                     user.Birth = model.Birth;
                     IdentityResult result = UserManager.Update(user);
                     //Role
-                    List<string> memberRole = UserRoleList(model.Id).ToList();
+                    var memberRole = UserManager.GetRoles(model.Id);
 
                    
                     if (result.Succeeded)
@@ -108,11 +106,8 @@ namespace PeriodontalSite1.Controllers
                     ModelState.AddModelError("", "Пользователь не найден");
                 }
             }
-
-            AdminEditViewModel view = model; 
-            view.Roles = RoleList();
-            view.Members = UserRoleList(model.Id);
-            return View(view);
+            PrepareAdminEditViewModel(model);
+            return View(model);
         }
 
 
@@ -131,17 +126,10 @@ namespace PeriodontalSite1.Controllers
             return RedirectToAction(nameof(Index), "Admin");
         }
 
-        private List<ApplicationRole> RoleList()
+        private void PrepareAdminEditViewModel(AdminEditViewModel model)
         {
-            return RoleManager.Roles.ToList();
+            model.Roles = RoleManager.Roles.ToList();
         }
-
-        private IList<string> UserRoleList(string id)
-        {
-            return UserManager.GetRoles(id);
-        }
-
-
 
     }
 }
