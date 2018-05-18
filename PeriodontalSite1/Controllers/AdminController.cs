@@ -51,7 +51,7 @@ namespace PeriodontalSite1.Controllers
 
             var user = UserManager.FindById(id);
 
-            AdminEditViewModel model = new AdminEditViewModel()
+            var model = new AdminEditViewModel()
             {
                 Email = user.Email,
                 FirstName = user.FirstName,
@@ -61,9 +61,9 @@ namespace PeriodontalSite1.Controllers
                 Address = user.Address,
                 UserType = user.TypeUser,
                 PhoneNumber = user.PhoneNumber,
-                Members = UserRoleList(id),
-                Roles = RoleList()
+                Members = UserManager.GetRoles(id),
             };
+            PrepareAdminEditViewModel(model);
             return View(model);
         }
         [HttpPost]
@@ -83,7 +83,7 @@ namespace PeriodontalSite1.Controllers
                     user.Birth = model.Birth;
                     IdentityResult result = UserManager.Update(user);
                     //Role
-                    List<string> memberRole = UserRoleList(model.Id).ToList();
+                    List<string> memberRole = UserManager.GetRoles(model.Id).ToList();
 
                    
                     if (result.Succeeded)
@@ -109,10 +109,9 @@ namespace PeriodontalSite1.Controllers
                 }
             }
 
-            AdminEditViewModel view = model; 
-            view.Roles = RoleList();
-            view.Members = UserRoleList(model.Id);
-            return View(view);
+            
+            PrepareAdminEditViewModel(model);
+            return View(model);
         }
 
 
@@ -131,16 +130,11 @@ namespace PeriodontalSite1.Controllers
             return RedirectToAction(nameof(Index), "Admin");
         }
 
-        private List<ApplicationRole> RoleList()
-        {
-            return RoleManager.Roles.ToList();
-        }
 
-        private IList<string> UserRoleList(string id)
+        private void PrepareAdminEditViewModel(AdminEditViewModel model)
         {
-            return UserManager.GetRoles(id);
+            model.Roles = RoleManager.Roles.ToList();
         }
-
 
 
     }
