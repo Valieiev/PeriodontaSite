@@ -9,28 +9,29 @@ namespace PeriodontalSite1.ViewModel.Appointment
 {
     public class PatientsViewModel
     {
-        [Display(Name = "PatientsId")]
+
         [Required]
         public int PatientsId { get; set; }
 
-        [Display(Name = "FirstName")]
-        [Required]
+        [Display(Name = "Имя")]
+        [Required(ErrorMessage = "{0} должно быть указано")]
         public string FirstName { get; set; }
 
-        [Display(Name = "LastName")]
-        [Required]
+        [Display(Name = "Фамилия")]
+        [Required(ErrorMessage = "{0} должна быть указана")]
         public string LastName { get; set; }
 
-        [Display(Name = "MiddleName")]
-        [Required]
+        [Display(Name = "Отчество")]
+        [Required(ErrorMessage = "{0} должно быть указано")]
         public string MiddleName { get; set; }
 
-        [Display(Name = "PhoneNumber")]
-        [Required]
+        [Display(Name = "Номер телефона")]
+        [Required(ErrorMessage = "{0} должен быть указан")]
         [Phone]
         public string PhoneNumber { get; set; }
 
-        [Display(Name = "Date Birth")]
+        [Display(Name = "Дата рождения")]
+        [Required(ErrorMessage = "{0} должна быть указана")]
         public DateTime BirthDate { get; set; }
 
         public IPagedList<PatientsViewModel> Patients { get; set; }

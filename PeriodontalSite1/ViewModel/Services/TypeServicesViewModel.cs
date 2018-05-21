@@ -12,11 +12,11 @@ namespace PeriodontalSite1.ViewModel
         [Display(Name = "Id")]
         [Required]
         public int TypeServicesId { get; set; }
-        [Display(Name = "Name")]
-        [Required]
+        [Display(Name = "Услгуа")]
+        [Required(ErrorMessage = "{0} должна быть указана")]
         public string Name { get; set; }
-        [Display(Name = "Description")]
-        [Required]
+        [Display(Name = "Описание")]
+        [Required(ErrorMessage = "{0} должно быть указано")]
         public string Description { get; set; }
         public IPagedList<TypeServicesViewModel> Types { get; set; }
 

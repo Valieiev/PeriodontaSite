@@ -1,114 +1,109 @@
 ﻿@model PeriodontalSite1.ViewModel.Admin.AdminEditViewModel
 
-    @{
-        /**/
+@{
+    /**/
 
-        ViewBag.Title = "Edit";
-    }
+    ViewBag.Title = "Edit";
+}
 
-    <h2>Редактировать данные профиля</h2>
+<h2>Редактировать данные профиля</h2>
 
-    @using (Html.BeginForm())
-    {
-        @Html.AntiForgeryToken()
-
-    <div>
-        @Html.ValidationSummary(true, "")
-        @Html.HiddenFor(m => m.Id)
-        @Html.HiddenFor(m => m.Email)
+@using (Html.BeginForm("Edit", "Admin", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.AntiForgeryToken()
 
 
-        <br />
-        <div class="form-group">
-            @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+    @Html.ValidationSummary(true, "")
+    @Html.HiddenFor(m => m.Id)
+    @Html.HiddenFor(m => m.Email)
 
-
-            @Html.DisplayFor(m => m.Email, new { @class = "form-control" })
-
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group" >
-            @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.MiddleName, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.MiddleName, "", new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-
-            @Html.LabelFor(m => m.Birth, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.EditorFor(m => m.Birth,  new { @class = "form-control" })
-            </div>
-        </div>
-        <div class="form-group">
-            @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
-            </div>
-        </div>
-
-        <div class="form-group">
-            @Html.LabelFor(m => m.UserType, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.EnumDropDownListFor(model => model.UserType, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.UserType, string.Empty, new { @class = "text-danger" })
-            </div>
-        </div>
-        <br />
-        <div class="form-group">
-            @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
-            <div class="col-md-10">
-                @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
-                @Html.ValidationMessageFor(m => m.Address, string.Empty, new { @class = "text-danger" })
-            </div>
-        </div>
-        <div class="form-group">
-      
-                @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
-     
-            <table class="table" style="align-items:flex-end">
-                <div class="col-md-2">
-                    <ul class="list-group">
-                        @for (var idx = 0; idx < Model.Roles.Count; idx++)
-                        {
-                            var role = Model.Roles[idx];
-                            <li class="list-group-item">
-                                @role.Name
-                                <div class="material-switch pull-right">
-                                    <input type="checkbox" name="@Html.NameFor(x => x.Members)" id="@Html.IdFor(x => Model.Roles[idx])" 
-                                           value="@role.Name" @(Model.Members?.Contains(role.Name) ?? false ? "checked" : string.Empty)>
-                                    <label class="label-success" for="@Html.IdFor(x => x.Roles[idx])"></label>
-                                </div>
-                            </li>
-                        }
-                    </ul>n 
-                </div>
-            </table>
-            @Html.ValidationMessageFor(m => m.Members, string.Empty, new { @class = "text-danger" })
-
-        </div>
-        <br />
-
-        <br />
-        <div>
-            <div>
-                <input type="submit" value="Сохранить" />
-            </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
+        @Html.DisplayFor(m => m.Email, new { @class = "form-control" })
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.FirstName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.FirstName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.FirstName, "", new { @class = "text-danger" })
         </div>
     </div>
-    }
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.LastName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.LastName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.LastName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.MiddleName, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.MiddleName, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.MiddleName, "", new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+
+        @Html.LabelFor(m => m.Birth, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EditorFor(m => m.Birth, new { @class = "form-control" })
+        </div>
+    </div>
+    <div class="form-group">
+        @Html.LabelFor(m => m.PhoneNumber, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.PhoneNumber, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.PhoneNumber, "", new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.UserType, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.EnumDropDownListFor(model => model.UserType, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.UserType, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        @Html.LabelFor(m => m.Address, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.Address, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.Address, string.Empty, new { @class = "text-danger" })
+        </div>
+    </div>
+    <div class="form-group">
+
+        @Html.LabelFor(m => m.Roles, new { @class = "col-md-2 control-label" })
+
+        <table class="table" style="align-items:flex-end">
+            <div class="col-md-2">
+                <ul class="list-group">
+                    @for (var idx = 0; idx < Model.Roles.Count; idx++)
+                    {
+                        var role = Model.Roles[idx];
+                        <li class="list-group-item">
+                            @role.Name
+                            <div class="material-switch pull-right">
+                                <input type="checkbox" name="@Html.NameFor(x => x.Members)" id="@Html.IdFor(x => Model.Roles[idx])"
+                                       value="@role.Name" @(Model.Members?.Contains(role.Name) ?? false ? "checked" : string.Empty)>
+                                <label class="label-success" for="@Html.IdFor(x => x.Roles[idx])"></label>
+                            </div>
+                        </li>
+                    }
+                </ul>
+            </div>
+        </table>
+        @Html.ValidationMessageFor(m => m.Members, string.Empty, new { @class = "text-danger" })
+
+    </div>
+
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Сохранить" class="btn btn-default" />
+        </div>
+    </div>
+
+}

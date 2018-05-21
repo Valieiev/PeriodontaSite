@@ -103,7 +103,7 @@ namespace PeriodontalSite1.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Patients");
+            return RedirectToAction(nameof(Index), "Patients");
         }
 
 

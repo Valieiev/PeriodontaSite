@@ -14,15 +14,15 @@ namespace PeriodontalSite1.ViewModel
         [Display(Name = "Email")]
         public string Email { get; set; }
 
-        [Required(ErrorMessage = (" Name is required.")), RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "Only alphabetic characters are allowed.")]
+        [Required(ErrorMessage = (" {0} должно юбть указано.")), RegularExpression(@"^[a-zA-Zа-яА-Я]*$", ErrorMessage = "Только буквы.")]
         [Display(Name = "Имя")]
         public string Name { get; set; }
 
-        [Required(ErrorMessage = (" Surname is required.")), RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "Only alphabetic characters are allowed.")]
+        [Required(ErrorMessage = (" {0} должна быть указана.")), RegularExpression(@"^[a-zA-Zа-яА-Я]*$", ErrorMessage = "Только буквы.")]
         [Display(Name = "Фамилия")]
         public string Surname { get; set; }
 
-        [Required(ErrorMessage = ("Patronymic  is required.")), RegularExpression(@"^[a-zA-Z]*$", ErrorMessage = "Only alphabetic characters are allowed.")]
+        [Required(ErrorMessage = ("{0} должно быть указано.")), RegularExpression(@"^[a-zA-Zа-яА-Я]*$", ErrorMessage = "Только буквы.")]
         [Display(Name = "Отчество")]
         public string Patronymic { get; set; }
 
@@ -33,7 +33,7 @@ namespace PeriodontalSite1.ViewModel
         [DisplayFormat(DataFormatString = "{0:dd'.'MM'.'yyyy}", ApplyFormatInEditMode = true)]
         public DateTime Birth { get; set; }
 
-        [Required]
+        [Required, RegularExpression(@"\d{3}-\d{3}-\d{4}", ErrorMessage = "Формат ***-***-****.")]
         [Phone]
         [DataType(DataType.PhoneNumber)]
         [Display(Name = "Номер телефона")]

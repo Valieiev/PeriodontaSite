@@ -9,29 +9,30 @@ namespace PeriodontalSite1.ViewModel
 {
     public class ServicesCreateViewModel
     {
+
         
 
-        [Display(Name = "Id")]
         [Required]
         public int ServicesId { get; set; }
 
-        [Display(Name = "Name")]
-        [Required]
+        [Display(Name = "Услуга")]
+        [Required(ErrorMessage = "{0} должна быть указана")]
         public string Name { get; set; }
 
-        [Display(Name = "Description")]
-        [Required]
+        [Display(Name = "Описание")]
+        [Required(ErrorMessage = "{0} должно быть указано")]
         public string Description { get; set; }
 
-        [Display(Name = "Type")]
-        [Required]
-        public int TypeSelected { get; set; }
 
-        [Display(Name = "Unit")]
+        [Display(Name = "Тип")]
         [Required]
-        public int UnitSelected { get; set; }
+        public int TypeId { get; set; }
 
-        public List<SelectListItem> Units { get; set; }
+        [Display(Name = "Еденица измерения")]
+        [Required]
+        public int UnitId { get; set; }
+
         public List<SelectListItem> Types { get; set; }
+        public List<SelectListItem> Units { get; set; }
     }
 }

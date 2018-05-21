@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNet.Identity.Owin;
+﻿using AutoMapper;
+using Microsoft.AspNet.Identity.Owin;
 using PagedList;
 using PeriodontalSite1.AutoMapper;
 using PeriodontalSite1.Models;
@@ -91,6 +92,7 @@ namespace PeriodontalSite1.Controllers
                 return View(model);
             }
 
+         
             var app = new Appointments
             {
                 PatientId = model.PatientId,

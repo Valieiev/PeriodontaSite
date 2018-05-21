@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using AutoMapper;
+using PagedList;
 using PeriodontalSite1.AutoMapper;
 using PeriodontalSite1.Models;
 using PeriodontalSite1.Repository;
@@ -41,21 +42,9 @@ namespace PeriodontalSite1.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var units = Units.Get().Select(s => new SelectListItem
-            {
-                Text = s.Name,
-                Value = Convert.ToString(s.UnitsId)
-            }).ToList();
-            var types = Types.Get().Select(s => new SelectListItem
-            {
-                Text = s.Name,
-                Value = Convert.ToString(s.TypeServicesId)
-            }).ToList();
-            var model = new ServicesCreateViewModel
-            {
-                Types = types,
-                Units = units
-            };
+
+            var model = new ServicesCreateViewModel();
+            PrepareViewModel(model);
             return View(model);
         }
 
@@ -66,8 +55,9 @@ namespace PeriodontalSite1.Controllers
             {
                 return View(model);
             }
-            Services service = model.Map<Services>();
-
+            var service = model.Map<Services>();
+            service.TypeId = model.TypeId;
+            service.UnitId = model.UnitId;
             Services.Create(service);
 
             return RedirectToLocal(redirectUrl);
@@ -77,28 +67,18 @@ namespace PeriodontalSite1.Controllers
         [HttpGet]
         public ActionResult Edit(int id)
         {
-            var units = Units.Get().Select(s => new SelectListItem
-            {
-                Text = s.Name,
-                Value = Convert.ToString(s.UnitsId)
-            }).ToList();
-            var types = Types.Get().Select(s => new SelectListItem
-            {
-                Text = s.Name,
-                Value = Convert.ToString(s.TypeServicesId)
-            }).ToList();
+            
 
-            ServicesViewModel var = Services.GetById(id).Map<ServicesViewModel>();
-            var model = new ServicesCreateViewModel
+            var service = Services.GetById(id);
+            var model = new ServicesCreateViewModel()
             {
-                ServicesId = var.ServicesId,
-                Name = var.Name,
-                Description = var.Description,
-                TypeSelected = var.Type.TypeServicesId,
-                UnitSelected = var.Unit.UnitsId,
-                Types = types,
-                Units = units
+                Name = service.Name,
+                Description = service.Description,
+                TypeId = service.TypeId,
+                UnitId = service.UnitId,
+                ServicesId = service.ServicesId
             };
+            PrepareViewModel(model);
             return View(model);
         }
 
@@ -111,12 +91,13 @@ namespace PeriodontalSite1.Controllers
             }
 
             var serv = Services.GetById(model.ServicesId);
+            
             if (serv != null)
             {
                 serv.Name = model.Name;
                 serv.Description = model.Description;
-                serv.TypeId = model.TypeSelected;
-                serv.UnitId = model.UnitSelected;
+                serv.TypeId = model.TypeId;
+                serv.UnitId = model.UnitId;
                 Services.Update(serv);
             }
 
@@ -137,6 +118,24 @@ namespace PeriodontalSite1.Controllers
                 return Redirect(returnUrl);
             }
             return RedirectToAction(nameof(Index), "Services");
+        }
+
+        public void PrepareViewModel(ServicesCreateViewModel model)
+        {
+            var units = Units.Get().Select(s => new SelectListItem
+            {
+                Text = s.Name,
+                Value = Convert.ToString(s.UnitsId)
+            }).ToList();
+            var types = Types.Get().Select(s => new SelectListItem
+            {
+                Text = s.Name,
+                Value = Convert.ToString(s.TypeServicesId)
+            }).ToList();
+            model.Types = types;
+            model.Units = units;
+
+
         }
 
     }

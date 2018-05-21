@@ -1,9 +1,6 @@
 ﻿using PagedList;
-using PeriodontalSite1.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 
 namespace PeriodontalSite1.ViewModel
 {
@@ -28,7 +25,7 @@ namespace PeriodontalSite1.ViewModel
 
         [Display(Name = "Services")]
         [Required]
-        public Services Services { get; set; }
+        public Models.Services Services { get; set; }
 
 
         public IPagedList<PriceViewModel> Prices { get; set; }

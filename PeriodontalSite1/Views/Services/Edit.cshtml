@@ -30,15 +30,15 @@
 
 
         <div class="form-group">
-            @Html.LabelFor(m => m.TypeSelected, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => m.TypeId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.TypeSelected, new SelectList(Model.Types, "Value", "Text", new { htmlAttributes = new { @class = "form-control" } }))
+                @Html.DropDownListFor(model => model.TypeId, new SelectList(Model.Types, "Value", "Text", new { htmlAttributes = new { @class = "form-control" } }))
             </div>
         </div>
         <div class="form-group">
-            @Html.LabelFor(m => m.UnitSelected, new { @class = "col-md-2 control-label" })
+            @Html.LabelFor(m => m.UnitId, new { @class = "col-md-2 control-label" })
             <div class="col-md-10">
-                @Html.DropDownListFor(model => model.UnitSelected, new SelectList(Model.Units, "Value", "Text", new { htmlAttributes = new { @class = "form-control" } }))
+                @Html.DropDownListFor(model => model.UnitId, new SelectList(Model.Units, "Value", "Text", new { htmlAttributes = new { @class = "form-control" } }))
             </div>
         </div>
 

@@ -17,8 +17,8 @@ namespace PeriodontalSite1.Models
 
         public int UnitId { get; set; }
 
-        public  TypeServices Type { get; set; }
-        public  Units Unit { get; set;}
+        public  TypeServices Types { get; set; }
+        public  Units Units { get; set;}
 
         public ICollection<Prices> Prices { get; set; }
         public Services()

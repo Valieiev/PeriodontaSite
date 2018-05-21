@@ -35,16 +35,16 @@ namespace PeriodontalSite1.Models
             modelBuilder.Conventions.Remove<OneToManyCascadeDeleteConvention>();
             //Configure primary key for Services
             modelBuilder.Entity<Services>()
-             .HasRequired<TypeServices>(s => s.Type)
+             .HasRequired<TypeServices>(s => s.Types)
              .WithMany(p => p.Services)
             .HasForeignKey<int>(s => s.TypeId);
 
 
             modelBuilder.Entity<Services>()
-                .HasRequired<Units>(s => s.Unit)
+                .HasRequired<Units>(s => s.Units)
                 .WithMany(d => d.Services)
                 .HasForeignKey<int>(s => s.UnitId);
-
+            //Configure primary key for Prices
             modelBuilder.Entity<Prices>()
                 .HasRequired<Services>(s => s.Services)
                 .WithMany(d => d.Prices)

@@ -13,11 +13,11 @@ namespace PeriodontalSite1.ViewModel
         [Required]
         public int UnitsId { get; set; }
 
-        [Display(Name = "Name")]
-        [Required]
+        [Display(Name = "Наименование")]
+        [Required(ErrorMessage = "{0} должно быть указано")]
         public string Name { get; set; }
-        [Display(Name = "Description")]
-        [Required]
+        [Display(Name = "Описание")]
+        [Required(ErrorMessage = "{0} должно быть указано")]
         public string Description { get; set; }
         public IPagedList<UnitsViewModel> Units { get; set; }
 
