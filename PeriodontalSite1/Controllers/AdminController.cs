@@ -11,6 +11,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using System.Web.Security;
+using AutoMapper;
 
 namespace PeriodontalSite1.Controllers
 {
@@ -73,14 +74,8 @@ namespace PeriodontalSite1.Controllers
             {
                 ApplicationUser user = UserManager.FindById(model.Id);
                 if (user != null)
-                {  
-                    user.PhoneNumber = model.PhoneNumber;
-                    user.Address = model.Address;
-                    user.TypeUser = model.UserType;
-                    user.FirstName = model.FirstName;
-                    user.LastName = model.LastName;
-                    user.MiddleName = model.MiddleName;
-                    user.Birth = model.Birth;
+                {
+                    Mapper.Map(model, user);
                     IdentityResult result = UserManager.Update(user);
                     //Role
                     List<string> memberRole = UserManager.GetRoles(model.Id).ToList();
