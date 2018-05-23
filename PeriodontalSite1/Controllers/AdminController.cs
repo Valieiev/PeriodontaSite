@@ -51,19 +51,8 @@ namespace PeriodontalSite1.Controllers
         {
 
             var user = UserManager.FindById(id);
-
-            var model = new AdminEditViewModel()
-            {
-                Email = user.Email,
-                FirstName = user.FirstName,
-                LastName = user.LastName,
-                MiddleName = user.MiddleName,
-                Birth = user.Birth,
-                Address = user.Address,
-                UserType = user.TypeUser,
-                PhoneNumber = user.PhoneNumber,
-                Members = UserManager.GetRoles(id),
-            };
+            var model = Mapper.Map<AdminEditViewModel>(user);
+            model.Members = UserManager.GetRoles(id);
             PrepareAdminEditViewModel(model);
             return View(model);
         }
