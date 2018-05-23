@@ -37,32 +37,7 @@ namespace PeriodontalSite1.Controllers
 
             return View(RoleManager.Roles);
         }
-       
-        public ActionResult Create()
-        {
-            return View();
-        }
-        [HttpPost]
-        public async Task<ActionResult> Create(CreateViewModel model)
-        {
-            if (ModelState.IsValid)
-            {
-                IdentityResult result = await RoleManager.CreateAsync(new ApplicationRole
-                {
-                    Name = model.Name,
-                    Description = model.Description
-                });
-                if (result.Succeeded)
-                {
-                    return RedirectToAction("Index");
-                }
-                else
-                {
-                    ModelState.AddModelError("", "Что-то пошло не так");
-                }
-            }
-            return View(model);
-        }
+      
 
         public ActionResult Edit(string id)
         {
@@ -110,16 +85,6 @@ namespace PeriodontalSite1.Controllers
             return View("Error", new string[] { "Роль не найдена" });
         }
     
-   
-
-        public async Task<ActionResult> Delete(string id)
-        {
-            ApplicationRole role = await RoleManager.FindByIdAsync(id);
-            if (role != null)
-            {
-                IdentityResult result = await RoleManager.DeleteAsync(role);
-            }
-            return RedirectToAction("Index");
-        }
+  
     }
 }

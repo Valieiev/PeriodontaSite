@@ -1,4 +1,5 @@
-﻿using PagedList;
+﻿using AutoMapper;
+using PagedList;
 using PeriodontalSite1.AutoMapper;
 using PeriodontalSite1.Models;
 using PeriodontalSite1.Repository;
@@ -86,11 +87,7 @@ namespace PeriodontalSite1.Controllers
             var patient = Patient.GetById(model.PatientsId);
             if (patient != null)
             {
-                patient.FirstName = model.FirstName;
-                patient.LastName = model.LastName;
-                patient.MiddleName = model.MiddleName;
-                patient.PhoneNumber = model.PhoneNumber;
-
+                Mapper.Map(model, patient);
                 Patient.Update(patient);
             }
 

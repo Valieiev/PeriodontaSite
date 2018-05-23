@@ -259,11 +259,9 @@
     <Compile Include="ViewModel\Appointment\PatientsViewModel.cs" />
     <Compile Include="ViewModel\Price\PriceViewModel.cs" />
     <Compile Include="ViewModel\Roles\ApplicationRole.cs" />
-    <Compile Include="ViewModel\Roles\CreateViewModel.cs" />
     <Compile Include="ViewModel\Roles\RoleEditViewModel.cs" />
     <Compile Include="ViewModel\Roles\RoleModificationModel.cs" />
     <Compile Include="ViewModel\Services\ServicesCreateViewModel.cs" />
-    <Compile Include="ViewModel\Services\ServicesModificateViewModel.cs" />
     <Compile Include="ViewModel\Services\ServicesViewModel.cs" />
     <Compile Include="ViewModel\Services\TypeServicesViewModel.cs" />
     <Compile Include="ViewModel\Services\UnitsViewModel.cs" />

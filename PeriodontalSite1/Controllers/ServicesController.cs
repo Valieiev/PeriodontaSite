@@ -91,15 +91,8 @@ namespace PeriodontalSite1.Controllers
             }
 
             var serv = Services.GetById(model.ServicesId);
-            
-            if (serv != null)
-            {
-                serv.Name = model.Name;
-                serv.Description = model.Description;
-                serv.TypeId = model.TypeId;
-                serv.UnitId = model.UnitId;
-                Services.Update(serv);
-            }
+            Mapper.Map(model, serv);
+        
 
             return RedirectToLocal(redirectUrl);
         }
