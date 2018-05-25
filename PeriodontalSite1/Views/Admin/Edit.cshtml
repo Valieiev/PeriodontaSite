@@ -59,10 +59,10 @@
     </div>
 
     <div class="form-group">
-        @Html.LabelFor(m => m.UserType, new { @class = "col-md-2 control-label" })
+        @Html.LabelFor(m => m.TypeUser, new { @class = "col-md-2 control-label" })
         <div class="col-md-10">
-            @Html.EnumDropDownListFor(model => model.UserType, new { @class = "form-control" })
-            @Html.ValidationMessageFor(m => m.UserType, string.Empty, new { @class = "text-danger" })
+            @Html.EnumDropDownListFor(model => model.TypeUser, new { @class = "form-control" })
+            @Html.ValidationMessageFor(m => m.TypeUser, string.Empty, new { @class = "text-danger" })
         </div>
     </div>
 

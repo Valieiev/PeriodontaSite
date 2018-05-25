@@ -51,7 +51,6 @@ namespace PeriodontalSite1.Controllers
         {
 
             var user = UserManager.FindById(id);
-
             var model = new AdminEditViewModel()
             {
                 Email = user.Email,
@@ -60,7 +59,7 @@ namespace PeriodontalSite1.Controllers
                 MiddleName = user.MiddleName,
                 Birth = user.Birth,
                 Address = user.Address,
-                UserType = user.TypeUser,
+                TypeUser = user.TypeUser,
                 PhoneNumber = user.PhoneNumber,
                 Members = UserManager.GetRoles(id),
             };

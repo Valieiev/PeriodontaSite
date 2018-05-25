@@ -37,7 +37,7 @@ namespace PeriodontalSite1.ViewModel.Admin
         public string Address { get; set; }
         [Display(Name = "Тип пользователя")]
         [Required(ErrorMessage = "{0} должны быть указан")]
-        public UserType UserType { get; set; }
+        public UserType TypeUser { get; set; }
         [Required(ErrorMessage = "{0} должны быть указаны")]
         [Display(Name = "Роли")]
         public IList<string> Members { get; set; }
