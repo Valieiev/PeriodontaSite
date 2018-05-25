@@ -56,8 +56,6 @@ namespace PeriodontalSite1.Controllers
                 return View(model);
             }
             var service = model.Map<Services>();
-            service.TypeId = model.TypeId;
-            service.UnitId = model.UnitId;
             Services.Create(service);
 
             return RedirectToLocal(redirectUrl);
@@ -70,14 +68,7 @@ namespace PeriodontalSite1.Controllers
             
 
             var service = Services.GetById(id);
-            var model = new ServicesCreateViewModel()
-            {
-                Name = service.Name,
-                Description = service.Description,
-                TypeId = service.TypeId,
-                UnitId = service.UnitId,
-                ServicesId = service.ServicesId
-            };
+            var model = Mapper.Map<ServicesCreateViewModel>(service);
             PrepareViewModel(model);
             return View(model);
         }
@@ -94,10 +85,7 @@ namespace PeriodontalSite1.Controllers
             
             if (serv != null)
             {
-                serv.Name = model.Name;
-                serv.Description = model.Description;
-                serv.TypeId = model.TypeId;
-                serv.UnitId = model.UnitId;
+                Mapper.Map(model, serv);
                 Services.Update(serv);
             }
 

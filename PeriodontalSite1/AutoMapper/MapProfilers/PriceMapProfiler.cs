@@ -18,7 +18,13 @@ namespace PeriodontalSite1.AutoMapper.MapProfilers
             CreateMap<Services, ServicesCreateViewModel>()
                .ForMember(x => x.Types, x => x.MapFrom(m => m.TypeId))
                .ForMember(x => x.Units, x => x.MapFrom(m => m.UnitId))
-               .ReverseMap();
+               .ForMember(dest => dest.Types, opt => opt.Ignore())
+               .ForMember(dest => dest.Units, opt => opt.Ignore())
+               .ReverseMap()
+               .ForMember(dest => dest.TypeId, opt => opt.MapFrom(src => src.TypeId))
+               .ForMember(dest => dest.UnitId, opt => opt.MapFrom(src => src.UnitId))
+               .ForMember(dest => dest.Types, opt => opt.Ignore())
+               .ForMember(dest => dest.Units, opt => opt.Ignore());
 
 
             CreateMap<Units, UnitsViewModel>()

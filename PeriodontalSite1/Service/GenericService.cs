@@ -48,6 +48,7 @@ namespace PeriodontalSite1.Repository
 
         public void Update(TEntity item)
         {
+            
             context.Entry(item).State = EntityState.Modified;
             context.SaveChanges();
         }

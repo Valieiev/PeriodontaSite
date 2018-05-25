@@ -59,15 +59,7 @@ namespace PeriodontalSite1.Controllers
             {
                 return View(model);
             }
-
-            var patient = new Patients
-            {
-                FirstName = model.FirstName,
-                LastName = model.LastName,
-                MiddleName = model.MiddleName,
-                BirthDate = model.BirthDate,
-                PhoneNumber = model.PhoneNumber
-            };
+            var patient = model.Map<Patients>();
 
             Patient.Create(patient);
 

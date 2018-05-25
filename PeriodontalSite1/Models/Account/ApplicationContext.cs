@@ -43,7 +43,8 @@ namespace PeriodontalSite1.Models
             modelBuilder.Entity<Services>()
                 .HasRequired<Units>(s => s.Units)
                 .WithMany(d => d.Services)
-                .HasForeignKey<int>(s => s.UnitId);
+                .HasForeignKey<int>(s => s.UnitId)
+                .WillCascadeOnDelete(false);
             //Configure primary key for Prices
             modelBuilder.Entity<Prices>()
                 .HasRequired<Services>(s => s.Services)
