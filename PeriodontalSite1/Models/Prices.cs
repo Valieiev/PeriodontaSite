@@ -12,7 +12,7 @@ namespace PeriodontalSite1.Models
         public double Value { get; set; }
         public DateTime FromDate { get; set; }
      
-        public DateTime ToDate { get; set; }
+        public DateTime? ToDate { get; set; }
 
         public int ServiceId { get; set; }
         public Services Services { get; set; }

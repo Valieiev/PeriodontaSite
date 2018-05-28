@@ -55,15 +55,27 @@ namespace PeriodontalSite1.Controllers
             {
               return View(model);
             }
+            List<Prices> prices = Price.Get().Where(t => t.ServiceId == model.ServiceSelected).ToList().Where(p=>p.FromDate <= model.FromDate  &&  p.ToDate > model.FromDate || p.ToDate == null ).ToList();
+            //.Where(p=>p.FromDate > model.FromDate && p.ToDate <= model.FromDate).OrderByDescending(t => t.FromDate).Take(2);
+            if (prices.Count != 0)
+            {
+                prices[0].ToDate = model.FromDate;
+                Price.Update(prices[0]);
+            }
 
             var price = new Prices
             {
                 ServiceId = model.ServiceSelected,
+                ToDate = null,
                 Value = model.Value,
-                ToDate = model.ToDate,
                 FromDate = model.FromDate
             };
 
+            if (prices.Count == 2)
+            {
+                price.ToDate = prices[1].FromDate;
+            }
+   
             Price.Create(price);
 
             return RedirectToLocal(redirectUrl);
@@ -84,7 +96,6 @@ namespace PeriodontalSite1.Controllers
             {
                 PriceId = var.PriceId,
                 Value = var.Value,
-                ToDate = var.ToDate,
                 FromDate = var.FromDate,
                 ServiceSelected = var.Services.ServicesId,
                 Service = services,
@@ -106,7 +117,6 @@ namespace PeriodontalSite1.Controllers
                 serv.ServiceId = model.ServiceSelected;
                 serv.Value = model.Value;
                 serv.FromDate = model.FromDate;
-                serv.ToDate = model.ToDate;
                 Price.Update(serv);
             }
 
