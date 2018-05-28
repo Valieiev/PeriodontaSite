@@ -21,9 +21,6 @@ namespace PeriodontalSite1.ViewModel
         [Required]
         public DateTime FromDate { get; set; }
 
-        //[Display(Name = "ToDate")]
-        //[Required]
-        //public DateTime ToDate { get; set; }
 
         [Display(Name = "ServiceSelected")]
         [Required]

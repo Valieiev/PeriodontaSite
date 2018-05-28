@@ -784,3 +784,4 @@ A:\Projects\PeriodontalChartGit\PeriondontalSite\PeriodontalSite\PeriodontalSite
 A:\Projects\PeriodontalChartGit\PeriondontalSite\PeriodontalSite\PeriodontalSite1\obj\Debug\PeriodontalSite1.csproj.CopyComplete
 A:\Projects\PeriodontalChartGit\PeriondontalSite\PeriodontalSite\PeriodontalSite1\obj\Debug\PeriodontalSite1.dll
 A:\Projects\PeriodontalChartGit\PeriondontalSite\PeriodontalSite\PeriodontalSite1\obj\Debug\PeriodontalSite1.pdb
+A:\Projects\PeriodontalChartGit\PeriondontalSite\PeriodontalSite\PeriodontalSite1\obj\Debug\PeriodontalSite1.Migrations.ServicesIdFIX.resources

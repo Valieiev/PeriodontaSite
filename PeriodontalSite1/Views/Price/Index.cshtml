@@ -9,6 +9,14 @@
 
 <h2>Цены</h2>
 @Html.ActionLink("Create", "Create") |
+<form method="get">
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateTimeFilter, new { htmlAttribute = new { @class = "DateTimeFilter" } })
+        @Html.EditorFor(m => m.DateTimeFilter, new { htmlAttribute = new { @class = "DateTimeFilter" } })
+        @Html.CheckBoxFor(m => m.filtrEnable, new { htmlAttribute = new { @class = "filtrEnable" } })
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+    </div>
+</form>
 <table class="table">
     <tr>
         <th>Услуга</th>
@@ -45,3 +53,17 @@
 Страница @(Model.Prices.PageCount < Model.Prices.PageNumber ? 0 : Model.Prices.PageNumber) из @Model.Prices.PageCount
 
 @Html.PagedListPager(Model.Prices, page => Url.Action($"Index", new { page }))
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+
+<script type="text/javascript">
+
+    $(function () {
+        $('#DateTimeFilter').datepicker({
+            format: "yyyy.mm.dd"
+        });
+    });
+</script>

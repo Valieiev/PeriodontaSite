@@ -22,12 +22,13 @@ namespace PeriodontalSite1.ViewModel
         [Display(Name = "ToDate")]
         [Required]
         public DateTime ToDate { get; set; }
-
+        
         [Display(Name = "Services")]
         [Required]
         public Models.Services Services { get; set; }
 
-
+        public bool filtrEnable { get; set; }
+        public DateTime DateTimeFilter { get; set; }
         public IPagedList<PriceViewModel> Prices { get; set; }
     }
 }

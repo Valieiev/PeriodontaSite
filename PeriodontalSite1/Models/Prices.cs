@@ -14,7 +14,7 @@ namespace PeriodontalSite1.Models
      
         public DateTime? ToDate { get; set; }
 
-        public int ServiceId { get; set; }
+        public int ServicesId { get; set; }
         public Services Services { get; set; }
 
         public ICollection<AppointmentResult> Results { get; set; }

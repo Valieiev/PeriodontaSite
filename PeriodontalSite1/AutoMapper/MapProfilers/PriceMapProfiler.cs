@@ -38,7 +38,7 @@ namespace PeriodontalSite1.AutoMapper.MapProfilers
                 .ReverseMap();
 
             CreateMap<Prices, PriceCreateViewModel>()
-               .ForMember(x => x.Service, x => x.MapFrom(m => m.ServiceId))
+               .ForMember(x => x.Service, x => x.MapFrom(m => m.ServicesId))
                .ReverseMap();
         }
     }

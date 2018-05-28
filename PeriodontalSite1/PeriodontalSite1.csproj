@@ -225,6 +225,10 @@
     <Compile Include="Migrations\201805141619496_ChangeNameonFirstName.Designer.cs">
       <DependentUpon>201805141619496_ChangeNameonFirstName.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201805281515206_ServicesIdFIX.cs" />
+    <Compile Include="Migrations\201805281515206_ServicesIdFIX.Designer.cs">
+      <DependentUpon>201805281515206_ServicesIdFIX.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\AppDbInitializer.cs" />
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\Account\ApplicationContext.cs" />
@@ -581,6 +585,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201805141619496_ChangeNameonFirstName.resx">
       <DependentUpon>201805141619496_ChangeNameonFirstName.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201805281515206_ServicesIdFIX.resx">
+      <DependentUpon>201805281515206_ServicesIdFIX.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

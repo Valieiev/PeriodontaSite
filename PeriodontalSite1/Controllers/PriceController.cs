@@ -17,21 +17,35 @@ namespace PeriodontalSite1.Controllers
         private PriceService Price = new PriceService(context);
         private GenericService<Services> Services = new GenericService<Services>(context);
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, DateTime? DateTimeFilter, bool? filtrEnable)
         {
+            var priceList = new List<PriceViewModel>();
+            if (filtrEnable == true)
+            {
+                if (DateTimeFilter == null) DateTimeFilter = DateTime.Now;
+
+                priceList = (from p in context.Prices
+                              .Include("Services")
+                             where (DateTimeFilter >= p.FromDate && (p.ToDate > DateTimeFilter || p.ToDate == null))
+                             select p).ToList().Map<List<PriceViewModel>>();
+            }
+            else
+            {
+                priceList = (from p in context.Prices
+                              .Include("Services")
+                             select p).ToList().Map<List<PriceViewModel>>();
+            }
+
             int pageSize = 5;
             int pageNumber = (page ?? 1);
-            var result = Price.Get().ToList().Map<List<PriceViewModel>>();
-
             return View(new PriceViewModel()
             {
-                Prices = result.ToPagedList(pageNumber, pageSize)
+                Prices = priceList.ToPagedList(pageNumber, pageSize)
             }
             );
         }
 
-
-       [HttpGet]
+        [HttpGet]
         public ActionResult Create()
         {
             var services = Services.Get().Select(s => new SelectListItem
@@ -55,8 +69,9 @@ namespace PeriodontalSite1.Controllers
             {
               return View(model);
             }
-            List<Prices> prices = Price.Get().Where(t => t.ServiceId == model.ServiceSelected).ToList().Where(p=>p.FromDate <= model.FromDate  &&  p.ToDate > model.FromDate || p.ToDate == null ).ToList();
-            //.Where(p=>p.FromDate > model.FromDate && p.ToDate <= model.FromDate).OrderByDescending(t => t.FromDate).Take(2);
+
+            List<Prices> prices = Price.Get().Where(t => t.ServicesId == model.ServiceSelected).ToList().Where(p=>p.FromDate <= model.FromDate  &&  (p.ToDate > model.FromDate || p.ToDate == null )).ToList();
+   
             if (prices.Count != 0)
             {
                 prices[0].ToDate = model.FromDate;
@@ -65,7 +80,7 @@ namespace PeriodontalSite1.Controllers
 
             var price = new Prices
             {
-                ServiceId = model.ServiceSelected,
+                ServicesId = model.ServiceSelected,
                 ToDate = null,
                 Value = model.Value,
                 FromDate = model.FromDate
@@ -114,7 +129,7 @@ namespace PeriodontalSite1.Controllers
             var serv = Price.GetById(model.PriceId);
             if (serv != null)
             {
-                serv.ServiceId = model.ServiceSelected;
+                serv.ServicesId = model.ServiceSelected;
                 serv.Value = model.Value;
                 serv.FromDate = model.FromDate;
                 Price.Update(serv);
