@@ -29,4 +29,11 @@ namespace PeriodontalSite1.Models
 
 
     }
+
+    public class ResultEdit
+    {
+        public int ServicesId;
+        public string Name;
+        public double? Price = 0;
+    }
 }

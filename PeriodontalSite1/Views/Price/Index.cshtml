@@ -15,6 +15,7 @@
         @Html.EditorFor(m => m.DateTimeFilter, new { htmlAttribute = new { @class = "DateTimeFilter" } })
         @Html.CheckBoxFor(m => m.filtrEnable, new { htmlAttribute = new { @class = "filtrEnable" } })
         <input type="submit" value="Фильтр" class="btn btn-default" />
+        @Html.ActionLink("Изменить цены", $"Edit")
     </div>
 </form>
 <table class="table">
@@ -43,7 +44,6 @@
             </td>
 
             <td>
-                @Html.ActionLink("Edit", $"Edit", new { id = item.PriceId })
 
                 @Html.ActionLink("Delete", $"Delete", new { id = item.PriceId }, new { onclick = "return confirm('Вы уверены?')", @class = "button" })
             </td>

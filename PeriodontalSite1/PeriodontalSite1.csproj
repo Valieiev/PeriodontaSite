@@ -261,6 +261,7 @@
     <Compile Include="ViewModel\Appointment\AppointmentsViewModel.cs" />
     <Compile Include="ViewModel\Appointment\EditAppointmentViewModel.cs" />
     <Compile Include="ViewModel\Appointment\PatientsViewModel.cs" />
+    <Compile Include="ViewModel\Price\PriceEditViewModel.cs" />
     <Compile Include="ViewModel\Price\PriceViewModel.cs" />
     <Compile Include="ViewModel\Roles\ApplicationRole.cs" />
     <Compile Include="ViewModel\Roles\RoleEditViewModel.cs" />

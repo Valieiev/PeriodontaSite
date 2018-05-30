@@ -1,8 +1,10 @@
-﻿using PagedList;
+﻿using AutoMapper;
+using PagedList;
 using PeriodontalSite1.AutoMapper;
 using PeriodontalSite1.Models;
 using PeriodontalSite1.Repository;
 using PeriodontalSite1.ViewModel;
+using PeriodontalSite1.ViewModel.Price;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,7 +28,7 @@ namespace PeriodontalSite1.Controllers
 
                 priceList = (from p in context.Prices
                               .Include("Services")
-                             where (DateTimeFilter >= p.FromDate && (p.ToDate > DateTimeFilter || p.ToDate == null))
+                             where (DateTimeFilter >= p.FromDate && (p.ToDate >= DateTimeFilter || p.ToDate == null))
                              select p).ToList().Map<List<PriceViewModel>>();
             }
             else
@@ -40,6 +42,7 @@ namespace PeriodontalSite1.Controllers
             int pageNumber = (page ?? 1);
             return View(new PriceViewModel()
             {
+                DateTimeFilter = DateTime.Now,
                 Prices = priceList.ToPagedList(pageNumber, pageSize)
             }
             );
@@ -98,42 +101,37 @@ namespace PeriodontalSite1.Controllers
 
 
         [HttpGet]
-        public ActionResult Edit(int id)
+        public ActionResult Edit()
         {
-            var services = Services.Get().Select(s => new SelectListItem
+
+            var service = (from s in context.Services
+                           .Include("Types")
+                           .Include("Units")
+                           select (new ResultEdit { ServicesId = s.ServicesId,  Name = s.Name, Price = s.Prices.Where(p=> p.FromDate <= DateTime.Now && (p.ToDate == null || p.ToDate > DateTime.Now )).FirstOrDefault().Value})).ToList();
+            PriceEditViewModel model = new PriceEditViewModel
             {
-                Text = s.Name,
-                Value = Convert.ToString(s.ServicesId)
-            }).ToList();
- 
-            PriceViewModel var = Price.GetById(id).Map<PriceViewModel>();
-            var model = new PriceCreateViewModel
-            {
-                PriceId = var.PriceId,
-                Value = var.Value,
-                FromDate = var.FromDate,
-                ServiceSelected = var.Services.ServicesId,
-                Service = services,
+                Services = service,
+                FromDate = DateTime.Now
             };
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(PriceCreateViewModel model, string redirectUrl)
+        public ActionResult Edit(PriceEditViewModel model, string redirectUrl)
         {
             if (!ModelState.IsValid)
             {
                 return View(model: model);
             }
 
-            var serv = Price.GetById(model.PriceId);
-            if (serv != null)
-            {
-                serv.ServicesId = model.ServiceSelected;
-                serv.Value = model.Value;
-                serv.FromDate = model.FromDate;
-                Price.Update(serv);
-            }
+            //var serv = Price.GetById(model.PriceId);
+            //if (serv != null)
+            //{
+            //    serv.ServicesId = model.ServiceSelected;
+            //    serv.Value = model.Value;
+            //    serv.FromDate = model.FromDate;
+            //    Price.Update(serv);
+            //}
 
             return RedirectToLocal(redirectUrl);
         }
@@ -152,7 +150,8 @@ namespace PeriodontalSite1.Controllers
             {
                 return Redirect(returnUrl);
             }
-            return RedirectToAction("Index", "Price");
+            return RedirectToAction(nameof(Index), "Price");
         }
+        
     }
 }

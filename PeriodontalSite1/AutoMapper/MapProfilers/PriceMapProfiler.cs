@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using PeriodontalSite1.Models;
 using PeriodontalSite1.ViewModel;
+using PeriodontalSite1.ViewModel.Price;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -26,6 +27,7 @@ namespace PeriodontalSite1.AutoMapper.MapProfilers
                .ForMember(dest => dest.Types, opt => opt.Ignore())
                .ForMember(dest => dest.Units, opt => opt.Ignore());
 
+            CreateMap<ResultEdit, PriceEditViewModel>();
 
             CreateMap<Units, UnitsViewModel>()
                 .ReverseMap();
@@ -39,7 +41,9 @@ namespace PeriodontalSite1.AutoMapper.MapProfilers
 
             CreateMap<Prices, PriceCreateViewModel>()
                .ForMember(x => x.Service, x => x.MapFrom(m => m.ServicesId))
-               .ReverseMap();
+               .ReverseMap()
+               .ForMember(dest => dest.ServicesId, opt => opt.MapFrom(src => src.ServiceSelected))
+               .ForMember(x => x.Services, x => x.Ignore());
         }
     }
 }

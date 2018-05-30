@@ -27,7 +27,9 @@ namespace PeriodontalSite1.ViewModel
         [Required]
         public Models.Services Services { get; set; }
 
+
         public bool filtrEnable { get; set; }
+        [Display(Name = "С какой даты активна цена:")]
         public DateTime DateTimeFilter { get; set; }
         public IPagedList<PriceViewModel> Prices { get; set; }
     }
