@@ -34,6 +34,6 @@ namespace PeriodontalSite1.Models
     {
         public int ServicesId;
         public string Name;
-        public double? Price = 0;
+        public Prices Price;
     }
 }

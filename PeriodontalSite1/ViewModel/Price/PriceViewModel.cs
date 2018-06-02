@@ -1,4 +1,5 @@
 ﻿using PagedList;
+using PeriodontalSite1.Models;
 using System;
 using System.ComponentModel.DataAnnotations;
 
@@ -27,10 +28,13 @@ namespace PeriodontalSite1.ViewModel
         [Required]
         public Models.Services Services { get; set; }
 
+        [Required]
+        [Display(Name = "На дату:")]
+        public DateTime EditFromDate { get; set; }
 
-        public bool filtrEnable { get; set; }
+
         [Display(Name = "С какой даты активна цена:")]
         public DateTime DateTimeFilter { get; set; }
-        public IPagedList<PriceViewModel> Prices { get; set; }
+        public IPagedList<ResultEdit> Prices { get; set; }
     }
 }

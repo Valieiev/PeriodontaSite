@@ -19,30 +19,22 @@ namespace PeriodontalSite1.Controllers
         private PriceService Price = new PriceService(context);
         private GenericService<Services> Services = new GenericService<Services>(context);
 
-        public ActionResult Index(int? page, DateTime? DateTimeFilter, bool? filtrEnable)
+        public ActionResult Index(int? page, DateTime? DateTimeFilter)
         {
-            var priceList = new List<PriceViewModel>();
-            if (filtrEnable == true)
-            {
+            var priceList = new List<ResultEdit>();
+
                 if (DateTimeFilter == null) DateTimeFilter = DateTime.Now;
 
-                priceList = (from p in context.Prices
-                              .Include("Services")
-                             where (DateTimeFilter >= p.FromDate && (p.ToDate >= DateTimeFilter || p.ToDate == null))
-                             select p).ToList().Map<List<PriceViewModel>>();
-            }
-            else
-            {
-                priceList = (from p in context.Prices
-                              .Include("Services")
-                             select p).ToList().Map<List<PriceViewModel>>();
-            }
-
+             priceList = (from s in context.Services
+                        .Include("Types")
+                        .Include("Units")
+                           select (new ResultEdit { ServicesId = s.ServicesId, Name = s.Name, Price = s.Prices.Where(p => p.FromDate <= DateTimeFilter && (p.ToDate == null || p.ToDate > DateTimeFilter)).FirstOrDefault() })).ToList();
             int pageSize = 5;
             int pageNumber = (page ?? 1);
             return View(new PriceViewModel()
             {
                 DateTimeFilter = DateTime.Now,
+                EditFromDate = DateTime.Now,
                 Prices = priceList.ToPagedList(pageNumber, pageSize)
             }
             );
@@ -101,16 +93,16 @@ namespace PeriodontalSite1.Controllers
 
 
         [HttpGet]
-        public ActionResult Edit()
+        public ActionResult Edit(DateTime EditFromDate)
         {
 
             var service = (from s in context.Services
                            .Include("Types")
                            .Include("Units")
-                           select (new ResultEdit { ServicesId = s.ServicesId,  Name = s.Name, Price = s.Prices.Where(p=> p.FromDate <= DateTime.Now && (p.ToDate == null || p.ToDate > DateTime.Now )).FirstOrDefault().Value})).ToList();
+                           select (new ResultEdit { ServicesId = s.ServicesId,  Name = s.Name, Price = s.Prices.Where(p=> p.FromDate <= DateTime.Now && (p.ToDate == null || p.ToDate > DateTime.Now )).FirstOrDefault()})).ToList();
             PriceEditViewModel model = new PriceEditViewModel
             {
-                Services = service,
+                Services = service,  
                 FromDate = DateTime.Now
             };
             return View(model);

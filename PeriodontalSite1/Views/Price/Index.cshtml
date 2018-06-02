@@ -13,17 +13,18 @@
     <div class="form-group">
         @Html.LabelFor(m => m.DateTimeFilter, new { htmlAttribute = new { @class = "DateTimeFilter" } })
         @Html.EditorFor(m => m.DateTimeFilter, new { htmlAttribute = new { @class = "DateTimeFilter" } })
-        @Html.CheckBoxFor(m => m.filtrEnable, new { htmlAttribute = new { @class = "filtrEnable" } })
         <input type="submit" value="Фильтр" class="btn btn-default" />
-        @Html.ActionLink("Изменить цены", $"Edit")
-    </div>
+        @Html.ActionLink("Изменить цены", $"Edit", new { EditFromDate = Model.EditFromDate }, DateTime.Now)
+        @Html.LabelFor(m => m.EditFromDate, new { htmlAttribute = new { @class = "datetimepicker" } })
+            @Html.EditorFor(Model => Model.EditFromDate, new { htmlAttribute = new { @class = "datetimepicker" }, @class = "form-control" })
+        </div>
 </form>
 <table class="table">
     <tr>
-        <th>Услуга</th>
-        <th>Цена</th>
-        <th>Дата с</th>
-        <th>Дата до</th>
+        <th>  @Html.DisplayNameFor(Model => Model.Services.Name)</th>
+        <th>@Html.DisplayNameFor(Model => Model.Value)</th>
+        <th>@Html.DisplayNameFor(Model => Model.FromDate)</th>
+        <th>@Html.DisplayNameFor(Model => Model.ToDate)</th>
         <th></th>
     </tr>
 
@@ -31,21 +32,27 @@
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.Services.Name)
+                @Html.DisplayFor(modelItem => item.Name)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Value)
+                @Html.DisplayFor(modelItem => item.Price.Value)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.FromDate)
+                @Html.DisplayFor(modelItem => item.Price.FromDate)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.ToDate)
+                @Html.DisplayFor(modelItem => item.Price.ToDate)
             </td>
 
             <td>
-
-                @Html.ActionLink("Delete", $"Delete", new { id = item.PriceId }, new { onclick = "return confirm('Вы уверены?')", @class = "button" })
+                @if (item.Price != null)
+                {
+                    @Html.ActionLink("Delete", $"Delete", new { id = item.Price.PriceId }, new { onclick = "return confirm('Вы уверены?')", @class = "button" })
+                }
+                else
+                {
+                    @Html.ActionLink("Цены на данную услугу нет", $"Create")
+                }
             </td>
         </tr>
     }
@@ -64,6 +71,13 @@
     $(function () {
         $('#DateTimeFilter').datepicker({
             format: "yyyy.mm.dd"
+            
+        });
+    });
+    $(function () {
+        $('#EditFromDate').datepicker({
+            format: "yyyy.mm.dd",
+            minDate: new Date()
         });
     });
 </script>

@@ -28,7 +28,7 @@
                                     @Html.DisplayFor(m => m.Services[i].Name)
                                 </td>
                                 <td>
-                                    @Html.EditorFor(m => m.Services[i].Price, new { @class = "form-control" })
+                                    @Html.EditorFor(m => m.Services[i].Price.Value, new { @class = "form-control" })
                                 </td>
 
                             </tr>
