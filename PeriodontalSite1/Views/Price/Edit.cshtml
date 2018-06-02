@@ -1,4 +1,4 @@
-﻿@model PeriodontalSite1.ViewModel.Price.PriceEditViewModel
+﻿@model List<PeriodontalSite1.ViewModel.Price.PriceEditViewModel>
 <h2>Создать услугу</h2>
 
 <div class="row">
@@ -8,42 +8,44 @@
             @using (Html.BeginForm("Edit", "Price", FormMethod.Post, new { @class = "form-horizontal", role = "form", style = "disabled=disabled" }))
             {
 
-                <h4>Введите стоимость указанной услуги на дату:</h4>
-                @Html.LabelFor(m => m.FromDate, new { htmlAttribute = new { @class = "datetimepicker" }, @class = "col-md-2 control-label" })
-                @Html.EditorFor(m => m.FromDate, new { htmlAttribute = new { @class = "datetimepicker" }, @class = "form-control" })
-                    <table class="table">
-                        <tr>
-                            <th>Услуга</th>
-                            <th>Цена</th>
-                        </tr>
-                        @for (int i = 0; i < Model.Services.Count; i++)
-                        {
+                <h4>Введите стоимость указанной услуги на дату: @Html.DisplayFor(model => model.FirstOrDefault().EditFromDate)</h4>
+                
+                <table class="table">
+                    <tr>
+                        <th>Услуга</th>
+                        <th>Цена</th>
+                    </tr>
+                    @for (int i = 0; i < Model.Count; i++)
+                    {
 
-                            <tr>
+                    <tr>
 
-                                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                        @Html.HiddenFor(m => m[i].Price.PriceId)
+                        @Html.HiddenFor(m => m[i].Price.FromDate)
+                        @Html.HiddenFor(model => model[i].EditFromDate)
+                        @Html.HiddenFor(m => m[i].ServicesId)
+                        @Html.HiddenFor(m => m[i].Name)
+                        <td>
+                            @Html.DisplayFor(m => m[i].Name)
+                        </td>
+                        <td>
+                            @Html.EditorFor(m => m[i].Price.Value, new { @class = "form-control" })
+                        </td>
 
-                                @Html.HiddenFor(m => m.Services[i].ServicesId)
-                                <td>
-                                    @Html.DisplayFor(m => m.Services[i].Name)
-                                </td>
-                                <td>
-                                    @Html.EditorFor(m => m.Services[i].Price.Value, new { @class = "form-control" })
-                                </td>
-
-                            </tr>
-                        }
-                    </table>
-                    <div class="form-group">
-                        <div class="col-md-offset-2 col-md-10">
-                            <input type="submit" value="Сохранить" class="btn btn-default" />
-                        </div>
-                    </div>
-
+                    </tr>
                     }
+                </table>
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Сохранить" class="btn btn-default" />
+                    </div>
+                </div>
+
+            }
 
 
-            </section>
+        </section>
     </div>
 </div>
 

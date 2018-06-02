@@ -27,7 +27,8 @@ namespace PeriodontalSite1.AutoMapper.MapProfilers
                .ForMember(dest => dest.Types, opt => opt.Ignore())
                .ForMember(dest => dest.Units, opt => opt.Ignore());
 
-            CreateMap<ResultEdit, PriceEditViewModel>();
+            CreateMap<ResultEdit, PriceEditViewModel>()
+                .ForMember(x=>x.Price, x => x.MapFrom(m=>m.Price));
 
             CreateMap<Units, UnitsViewModel>()
                 .ReverseMap();

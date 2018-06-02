@@ -9,9 +9,14 @@ namespace PeriodontalSite1.ViewModel.Price
 {
     public class PriceEditViewModel
     {
-        [Display(Name = "На дату:")]
-        public DateTime? FromDate { get; set; }
-        public List<ResultEdit> Services { get; set; }
+        [Required]
+        public int ServicesId { get; set; }
+        [Required]
+        public string Name { get; set; }
+        [Required]
+        public DateTime EditFromDate { get; set; }
+
+        public Prices Price { get; set; } 
 
     }
 }

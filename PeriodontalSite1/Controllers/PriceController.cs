@@ -100,16 +100,18 @@ namespace PeriodontalSite1.Controllers
                            .Include("Types")
                            .Include("Units")
                            select (new ResultEdit { ServicesId = s.ServicesId,  Name = s.Name, Price = s.Prices.Where(p=> p.FromDate <= DateTime.Now && (p.ToDate == null || p.ToDate > DateTime.Now )).FirstOrDefault()})).ToList();
-            PriceEditViewModel model = new PriceEditViewModel
+
+            var model = Mapper.Map<List<PriceEditViewModel>>(service);
+            foreach (var item in model)
             {
-                Services = service,  
-                FromDate = DateTime.Now
-            };
+                item.EditFromDate = EditFromDate;
+                if(item.Price != null)   item.Price.FromDate = EditFromDate;
+            }
             return View(model);
         }
 
         [HttpPost]
-        public ActionResult Edit(PriceEditViewModel model, string redirectUrl)
+        public ActionResult Edit(List<PriceEditViewModel> model, string redirectUrl)
         {
             if (!ModelState.IsValid)
             {
