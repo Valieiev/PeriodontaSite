@@ -10,6 +10,7 @@ namespace PeriodontalSite1.Models
     {
         [Key]
         public int ServicesId { get; set; }
+        [Display (Name = "Наименование")]
         public string Name { get; set; }
         public string Description { get; set; }
 
@@ -35,5 +36,12 @@ namespace PeriodontalSite1.Models
         public int ServicesId;
         public string Name;
         public Prices Price;
+    }
+
+    public class ConfirmEdit
+    {
+        public int ServicesId;
+        public string Name;
+        public Prices Prices;
     }
 }

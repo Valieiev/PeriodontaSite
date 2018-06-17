@@ -5,6 +5,7 @@ using PeriodontalSite1.Repository;
 using PeriodontalSite1.ViewModel.AppointmentsResult;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
@@ -36,12 +37,24 @@ namespace PeriodontalSite1.Controllers
         [HttpGet]
         public ActionResult Create()
         {
-            var prices = Price.Get().Select(s => new SelectListItem
+
+            var priceList = (from s in context.Services
+                        .Include("Types")
+                        .Include("Units")
+                         select (new ResultEdit { ServicesId = s.ServicesId, Name = s.Name, Price = s.Prices.Where(p => p.FromDate <= DateTime.Now && (p.ToDate == null || p.ToDate > DateTime.Now)).FirstOrDefault() })).ToList();
+
+            var prices = priceList.Select(s => new SelectListItem
             {
-               Text = s.Services.Name,
-                Value = Convert.ToString(s.PriceId)
+                Text = s.Name,
+                Value = Convert.ToString(s.Price.PriceId)
             }).ToList();
-            var appointments = Appointment.Get().Select(s => new SelectListItem
+            DateTime today = DateTime.Now.Date;
+           var  VisitList = (from s in context.Appointments
+                       .Include("User")
+                       .Include("Patient")
+                       .Where ( d=> EntityFunctions.TruncateTime(d.VisitDate) == today)
+                         select s).ToList();
+            var appointments = VisitList.Select(s => new SelectListItem
             {
                 Text = "Доктор:"+s.User.FirstName+" "+s.User.LastName+ " Пациент:"+ s.Patient.FirstName+" "+ s.Patient.LastName+" Дата:"+s.VisitDate,
                 Value = Convert.ToString(s.AppointmentsId)
@@ -55,7 +68,7 @@ namespace PeriodontalSite1.Controllers
         }
 
         [HttpPost]
-        public ActionResult Create(AppointmentResultCreateViewModel model, string redirectUrl)
+        public ActionResult Create( AppointmentResultCreateViewModel model, string redirectUrl)
         {
             if (!ModelState.IsValid)
             {
@@ -76,34 +89,95 @@ namespace PeriodontalSite1.Controllers
             return RedirectToLocal(redirectUrl);
         }
 
+     
+        public ActionResult Delete(int id, string redirectUrl)
+        {
+            try
+            {
+                var rez = AppResult.GetById(id);
+                AppResult.Remove(rez);
+                return RedirectToLocal(redirectUrl);
+            }
+            catch
+            {
+                return RedirectToLocal(redirectUrl);
+            }
 
-        //[HttpGet]
-        //public ActionResult Edit(int id)
-        //{
-        //    var units = Price.Get().Select(s => new SelectListItem
-        //    {
-        //        Text = s.Services.Name,
-        //        Value = Convert.ToString(s.PriceId)
-        //    }).ToList();
-        //    var types = Types.Get().Select(s => new SelectListItem
-        //    {
-        //        Text = s.Name,
-        //        Value = Convert.ToString(s.TypeServicesId)
-        //    }).ToList();
+           
+        }
 
-        //    ServicesViewModel var = Services.GetById(id).Map<ServicesViewModel>();
-        //    var model = new ServicesCreateViewModel
-        //    {
-        //        ServicesId = var.ServicesId,
-        //        Name = var.Name,
-        //        Description = var.Description,
-        //        TypeSelected = var.Type.TypeServicesId,
-        //        UnitSelected = var.Unit.UnitsId,
-        //        Types = types,
-        //        Units = units
-        //    };
-        //    return View(model);
-        //}
+
+        [HttpGet]
+        public ActionResult Statistic(DateTime? StartDate, DateTime? EndDate, string Doctor)
+        {
+            var model = new AppointmentResultStatisticViewModel();
+            if (StartDate != null && EndDate == null && Doctor == null)
+            {
+                var VisitList = (from s in context.AppointmentsResult
+                       .Include("Appoitment")
+                       .Where(d => d.Appoitment.VisitDate > StartDate)
+                                 select s).ToList();
+                model.AppoitmentRes = VisitList;
+            }
+            else if (EndDate != null && StartDate == null && Doctor == null)
+            {
+                var VisitList = (from s in context.AppointmentsResult
+                      .Include("Appoitment")
+                      .Where(d => d.Appoitment.VisitDate < EndDate)
+                                 select s).ToList();
+                model.AppoitmentRes = VisitList;
+            }
+            else if (Doctor != null && StartDate == null && EndDate == null)
+            {
+                var VisitList = (from s in context.AppointmentsResult
+                     .Include("Appoitment")
+                     .Where(d => d.Appoitment.UserId == Doctor)
+                                 select s).ToList();
+                model.AppoitmentRes = VisitList;
+            }
+            else if (StartDate != null && EndDate != null && Doctor == null)
+            {
+                var VisitList = (from s in context.AppointmentsResult
+                       .Include("Appoitment")
+                       .Where(d => d.Appoitment.VisitDate > StartDate && d.Appoitment.VisitDate < EndDate)
+                                 select s).ToList();
+                model.AppoitmentRes = VisitList;
+            }
+            else if (StartDate != null && Doctor != null && EndDate == null)
+            {
+                var VisitList = (from s in context.AppointmentsResult
+                      .Include("Appoitment")
+                      .Where(d => d.Appoitment.VisitDate > StartDate && d.Appoitment.UserId == Doctor)
+                                 select s).ToList();
+                model.AppoitmentRes = VisitList;
+            }
+            else if (EndDate != null && Doctor != null && StartDate == null)
+            {
+                var VisitList = (from s in context.AppointmentsResult
+                      .Include("Appoitment")
+                      .Where(d => d.Appoitment.VisitDate < EndDate && d.Appoitment.UserId == Doctor)
+                                 select s).ToList();
+                model.AppoitmentRes = VisitList;
+            }
+            else if (EndDate != null && Doctor != null && StartDate != null)
+            {
+                var VisitList = (from s in context.AppointmentsResult
+                      .Include("Appoitment")
+                      .Where(d => d.Appoitment.VisitDate > StartDate && d.Appoitment.VisitDate < EndDate && d.Appoitment.UserId == Doctor)
+                                 select s).ToList();
+                model.AppoitmentRes = VisitList;
+            } else if (EndDate == null && Doctor == null && StartDate == null)
+            {
+                var VisitList = (from s in context.AppointmentsResult
+                      .Include("Appoitment")
+                                 select s).ToList();
+                model.AppoitmentRes = VisitList;
+            }
+           
+            return View(model);
+        }
+
+
 
         private ActionResult RedirectToLocal(string returnUrl)
         {

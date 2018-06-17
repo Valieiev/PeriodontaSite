@@ -14,9 +14,8 @@
         @Html.LabelFor(m => m.DateTimeFilter, new { htmlAttribute = new { @class = "DateTimeFilter" } })
         @Html.EditorFor(m => m.DateTimeFilter, new { htmlAttribute = new { @class = "DateTimeFilter" } })
         <input type="submit" value="Фильтр" class="btn btn-default" />
-        @Html.ActionLink("Изменить цены", $"Edit", new { EditFromDate = Model.EditFromDate }, DateTime.Now)
-        @Html.LabelFor(m => m.EditFromDate, new { htmlAttribute = new { @class = "datetimepicker" } })
-            @Html.EditorFor(Model => Model.EditFromDate, new { htmlAttribute = new { @class = "datetimepicker" }, @class = "form-control" })
+        @Html.ActionLink("Изменить цены", $"Edit", new { EditFromDate = Model.DateTimeFilter }, Model.DateTimeFilter)
+       
         </div>
 </form>
 <table class="table">

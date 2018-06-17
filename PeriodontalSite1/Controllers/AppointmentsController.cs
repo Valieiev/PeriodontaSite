@@ -124,6 +124,18 @@ namespace PeriodontalSite1.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult Delete(int id, string redirectUrl)
+        {
+
+
+            var app = Appointment.GetById(id);
+            Appointment.Remove(app);
+             return RedirectToLocal(redirectUrl);
+        }
+
+
+
         [HttpPost]
         public ActionResult Edit(EditAppointmentViewModel model, string redirectUrl)
         {

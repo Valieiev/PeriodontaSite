@@ -6,10 +6,9 @@
 @Html.ActionLink("Create", "Create")
 <table class="table">
     <tr>
-        <th>Doctor</th>
-        <th>Patient</th>
-        <th>VisitDate</th>
-        <th>Status</th>
+        <th>@Html.DisplayNameFor(Model => Model.User)</th>
+        <th>@Html.DisplayNameFor(Model => Model.Patient)</th>
+        <th>@Html.DisplayNameFor(Model => Model.VisitDate)</th>
         <th></th>
     </tr>
 
@@ -25,9 +24,6 @@
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.VisitDate)
-            </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.AppointmentStatus)
             </td>
 
             <td>

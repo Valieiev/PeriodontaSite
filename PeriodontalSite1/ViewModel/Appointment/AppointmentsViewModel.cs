@@ -18,27 +18,27 @@ namespace PeriodontalSite1.ViewModel.Appointment
         public int AppointmentsId { get; set; }
 
 
-        [Display(Name = "VisitDate")]
+        [Display(Name = "Дата приема")]
         [Required]
         public DateTime VisitDate { get; set; }
 
-        [Display(Name = "Status")]
+        [Display(Name = "Статус")]
         [Required]
         public Status AppointmentStatus { get; set; }
 
-        [Display(Name = "UserId")]
+        [Display(Name = "Доктор")]
         [Required]
         public string UserId { get; set; }
 
-        [Display(Name = "PatientId")]
+        [Display(Name = "Пациент")]
         [Required]
         public int PatientId { get; set; }
 
-        [Display(Name = "Doctors")]
+        [Display(Name = "Доктора")]
         [Required]
         public ApplicationUser User { get; set; }
 
-        [Display(Name = "Patient")]
+        [Display(Name = "Пациенты")]
         [Required]
         public Patients Patient { get; set; }
 

@@ -13,16 +13,17 @@ namespace PeriodontalSite1.ViewModel
         [Required]
         public int PriceId { get; set; }
 
-        [Display(Name = "Value")]
+
+        [Display(Name = "Цена")]
         [Required]
         public double  Value { get; set; }
 
-        [Display(Name = "FromDate")]
+        [Display(Name = "С даты")]
         [Required]
         public DateTime FromDate { get; set; }
 
 
-        [Display(Name = "ServiceSelected")]
+        [Display(Name = "Услуга")]
         [Required]
         public int ServiceSelected { get; set; }
 

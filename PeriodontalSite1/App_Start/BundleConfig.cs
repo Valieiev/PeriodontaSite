@@ -12,6 +12,8 @@ namespace PeriodontalSite1
                         "~/Scripts/jquery-{version}.js",
                         "~/Scripts/moment.js"
                         ));
+            bundles.Add(new ScriptBundle("~/bundles/jqueryui").Include(
+                        "~/Scripts/jquery-ui-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/jqueryval").Include(
                         "~/Scripts/jquery.validate*"));
@@ -29,6 +31,7 @@ namespace PeriodontalSite1
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
+                      "~/Content/themes/base/all.css",
                       "~/Content/bootstrap-datepicker.css",
                        "~/Content/bootstrap-datetimepicker.css",
                       "~/Content/bootsnipp.css",

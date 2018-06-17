@@ -55,15 +55,9 @@
 <script type="text/javascript">
 
     $(function () {
-        $('#FromDate').datepicker({
-            minDate: Date.now(),
-            format: "yyyy.mm.dd"
-        });
-    });
-    $(function () {
-        $('#ToDate').datepicker({
-            minDate: Date.now(),
-            format: "yyyy.mm.dd"
+        $('#FromDate').datetimepicker({
+            format: "YYYY.MM.DD",
+            minDate: new Date(),
         });
     });
 </script>

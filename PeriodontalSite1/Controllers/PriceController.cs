@@ -33,8 +33,8 @@ namespace PeriodontalSite1.Controllers
             int pageNumber = (page ?? 1);
             return View(new PriceViewModel()
             {
-                DateTimeFilter = DateTime.Now,
-                EditFromDate = DateTime.Now,
+                EditFromDate = DateTimeFilter,
+                DateTimeFilter = DateTimeFilter,
                 Prices = priceList.ToPagedList(pageNumber, pageSize)
             }
             );
@@ -95,11 +95,11 @@ namespace PeriodontalSite1.Controllers
         [HttpGet]
         public ActionResult Edit(DateTime EditFromDate)
         {
-
+            if (EditFromDate < DateTime.Now) EditFromDate = DateTime.Now;
             var service = (from s in context.Services
                            .Include("Types")
                            .Include("Units")
-                           select (new ResultEdit { ServicesId = s.ServicesId,  Name = s.Name, Price = s.Prices.Where(p=> p.FromDate <= DateTime.Now && (p.ToDate == null || p.ToDate > DateTime.Now )).FirstOrDefault()})).ToList();
+                           select (new ResultEdit { ServicesId = s.ServicesId,  Name = s.Name, Price = s.Prices.Where(p=> p.FromDate <= EditFromDate && (p.ToDate == null || p.ToDate > EditFromDate)).FirstOrDefault()})).ToList();
 
             var model = Mapper.Map<List<PriceEditViewModel>>(service);
             foreach (var item in model)
@@ -113,20 +113,55 @@ namespace PeriodontalSite1.Controllers
         [HttpPost]
         public ActionResult Edit(List<PriceEditViewModel> model, string redirectUrl)
         {
-            if (!ModelState.IsValid)
-            {
-                return View(model: model);
-            }
-
-            //var serv = Price.GetById(model.PriceId);
-            //if (serv != null)
+            //if (!ModelState.IsValid)
             //{
-            //    serv.ServicesId = model.ServiceSelected;
-            //    serv.Value = model.Value;
-            //    serv.FromDate = model.FromDate;
-            //    Price.Update(serv);
+            //    return View(model);
             //}
+          
+            foreach (var item in model)
+            {
+                if (item.Price.PriceId == 0)
+                {
+                    Prices price = new Prices()
+                    {
+                        Value = item.Price.Value,
+                        FromDate = item.EditFromDate,
+                        ServicesId = item.ServicesId,
+                        ToDate = null,
 
+                    };
+                    Price.Create(price);
+                }
+                else
+                {
+                    Prices price = new Prices();
+                    var PREV = (from s in context.Services
+                            .Include("Types")
+                            .Include("Units")
+                                   select (new ConfirmEdit { ServicesId = s.ServicesId, Name = s.Name, Prices = s.Prices.Where(p => p.FromDate < item.EditFromDate && (p.ToDate == null || p.ToDate > item.EditFromDate)).OrderBy(p=>p.FromDate).FirstOrDefault() })).Where(s=>s.ServicesId == item.ServicesId).ToList();
+                    var NEXT = (from s in context.Services
+                            .Include("Types")
+                            .Include("Units")
+                                select (new ConfirmEdit { ServicesId = s.ServicesId, Name = s.Name, Prices = s.Prices.Where(p => p.FromDate > item.EditFromDate && (p.ToDate == null || p.ToDate > item.EditFromDate)).FirstOrDefault() })).Where(s => s.ServicesId == item.ServicesId).ToList();
+                    if (PREV[0].Prices != null)
+                    {
+                        Prices prev =  Price.GetById(PREV[0].Prices.PriceId);
+                        prev.ToDate = item.EditFromDate;
+                        Price.Update(prev);
+                    }
+                    if (NEXT[0].Prices != null)
+                    {
+                        Prices next = Price.GetById(NEXT[0].Prices.PriceId);
+                        price.ToDate = next.FromDate;
+                    }
+
+                    price.Value = item.Price.Value;
+                    price.FromDate = item.EditFromDate;
+                    price.ServicesId = item.ServicesId;
+                    Price.Create(price);
+                    
+                }
+            }
             return RedirectToLocal(redirectUrl);
         }
 

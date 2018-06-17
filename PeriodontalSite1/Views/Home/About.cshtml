@@ -1,7 +1,39 @@
-﻿@{
-    ViewBag.Title = "About";
-}
-<h2>@ViewBag.Title.</h2>
-<h3>@ViewBag.Message</h3>
+﻿@using PagedList.Mvc
+@model PeriodontalSite1.ViewModel.PriceViewModel
 
-<p>Use this area to provide additional information.</p>
+@{
+    /**/
+
+    ViewBag.Title = "Цены";
+}
+
+<h2>Цены на услуги</h2>
+
+<table class="table" style="border-style: double; padding: 5px;">
+    <tr>
+        <th style="border-style: solid; padding: 5px;">  @Html.DisplayNameFor(Model => Model.Services.Name)</th>
+        <th style="border-style: solid; padding: 5px;">@Html.DisplayNameFor(Model => Model.Value)</th>
+
+    </tr>
+
+    @foreach (var item in Model.Prices)
+    {
+        <tr style="border-style: solid; padding: 5px;">
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td style="border-style: solid; padding: 5px;">
+                @Html.DisplayFor(modelItem => item.Price.Value)
+            </td>
+
+
+        </tr>
+    }
+</table>
+Страница @(Model.Prices.PageCount < Model.Prices.PageNumber ? 0 : Model.Prices.PageNumber) из @Model.Prices.PageCount
+
+@Html.PagedListPager(Model.Prices, page => Url.Action($"Index", new { page }))
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -17,15 +17,15 @@ namespace PeriodontalSite1.ViewModel.Appointment
         [Required]
         public Status AppointmentStatus { get; set; }
 
-        [Display(Name = "UserId")]
+        [Display(Name = "Доктор")]
         [Required]
         public string UserId { get; set; }
 
-        [Display(Name = "PatientId")]
+        [Display(Name = "Пациент")]
         [Required]
         public int PatientId { get; set; }
 
-        [Display(Name = "VisitDate")]
+        [Display(Name = "Дата приема")]
         [Required]
         public DateTime VisitDate { get; set; }
 

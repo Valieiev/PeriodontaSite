@@ -11,30 +11,30 @@ namespace PeriodontalSite1.ViewModel
         [Required]
         public int PriceId { get; set; }
 
-        [Display(Name = "Value")]
+        [Display(Name = "Цена")]
         [Required]
         public double Value { get; set; }
 
-        [Display(Name = "FromDate")]
+        [Display(Name = "С даты")]
         [Required]
         public DateTime FromDate { get; set; }
 
 
-        [Display(Name = "ToDate")]
+        [Display(Name = "По дату")]
         [Required]
         public DateTime ToDate { get; set; }
         
-        [Display(Name = "Services")]
+        [Display(Name = "Услуга")]
         [Required]
         public Models.Services Services { get; set; }
 
         [Required]
         [Display(Name = "На дату:")]
-        public DateTime EditFromDate { get; set; }
+        public DateTime? EditFromDate { get; set; }
 
 
         [Display(Name = "С какой даты активна цена:")]
-        public DateTime DateTimeFilter { get; set; }
+        public DateTime? DateTimeFilter { get; set; }
         public IPagedList<ResultEdit> Prices { get; set; }
     }
 }

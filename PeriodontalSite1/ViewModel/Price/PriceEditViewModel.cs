@@ -9,6 +9,7 @@ namespace PeriodontalSite1.ViewModel.Price
 {
     public class PriceEditViewModel
     {
+
         [Required]
         public int ServicesId { get; set; }
         [Required]
