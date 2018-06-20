@@ -13,19 +13,19 @@ namespace PeriodontalSite1.ViewModel.AppointmentsResult
         [Required]
         public int AppointmentResultId { get; set; }
 
-        [Display(Name = "Count")]
+        [Display(Name = "Прием")]
         [Required]
-        public int Count { get; set; }
+        public int? AppoitmentId { get; set; }
 
-        [Display(Name = "AppoitmentId")]
-        [Required]
-        public int AppoitmentId { get; set; }
-
-        [Display(Name = "PriceId")]
+        [Display(Name = "Услуга")]
         [Required]
         public int PriceId { get; set; }
 
-        public List<SelectListItem> Appoitment { get; set; }
+        [Display(Name = "Количество")]
+        [Required]
+        public int Count { get; set; }
+
         public List<SelectListItem> Price { get; set; }
     }
 }
+

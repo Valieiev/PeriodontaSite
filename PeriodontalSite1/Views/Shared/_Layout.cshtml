@@ -23,16 +23,17 @@
             <div class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     @if (User.IsInRole("Owner"))
-    {
-                <li>@Html.ActionLink("Admin", "Index", "Admin")</li>
-                <li>@Html.ActionLink("Services", "Index", "Services")</li>
-                <li>@Html.ActionLink("Price", "Index", "Price")</li>
-}
+                    {
+                        <li>@Html.ActionLink("Админ", "Index", "Admin")</li>
+                        <li>@Html.ActionLink("Услуги", "Index", "Services")</li>
+                        <li>@Html.ActionLink("Цены", "Index", "Price")</li>
+                    }
                     @if (User.IsInRole("Reseptionist") || User.IsInRole("Owner"))
                     {
-                <li>@Html.ActionLink("Appointments", "Index", "Appointments")</li>
-                <li>@Html.ActionLink("Patients", "Index", "Patients")</li>
-                <li>@Html.ActionLink("AppointmentResult", "Index", "AppointmentResult")</li>
+                        <li>@Html.ActionLink("Приемы", "Index", "Appointments")</li>
+                        <li>@Html.ActionLink("Пациенты", "Index", "Patients")</li>
+                        <li>@Html.ActionLink("Результаты приемов", "Index", "AppointmentResult")</li>
+                        
                     }
                 </ul>
                 @Html.Partial("_LoginPartial")

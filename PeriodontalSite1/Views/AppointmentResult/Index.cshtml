@@ -8,52 +8,105 @@
 }
 
 <h2>Списко счетов</h2>
-@Html.ActionLink("Create", "Create") 
-<table class="table">
-    <tr>
-        <th>Доктор</th>
-        <th>Пациент</th>
-        <th>Дата</th>
-        <th>Услуга</th>
-        <th>Цена</th>
-        <th>Количество</th>
-        <th>Сумма</th>
-        <th></th>
-    </tr>
+<li>@Html.ActionLink("Статистика", "Statistic", "AppointmentResult")</li>
+@using (Html.BeginForm("Create", "AppointmentResult", FormMethod.Get, new { @class = "form-horizontal", role = "form" }))
+{
+    @Html.LabelFor(m => m.CreatedAppoitmentId, new { @class = "col-md-2 control-label" })
 
-    @foreach (var item in Model.AppointmentResults)
-    {
-    <tr>
-        <td>
-            @Html.DisplayFor(modelItem => item.Appoitment.User.LastName)  @Html.DisplayFor(modelItem => item.Appoitment.User.FirstName) @Html.DisplayFor(modelItem => item.Appoitment.User.MiddleName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Appoitment.Patient.LastName)  @Html.DisplayFor(modelItem => item.Appoitment.Patient.FirstName) @Html.DisplayFor(modelItem => item.Appoitment.Patient.MiddleName)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Appoitment.VisitDate) 
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price.Services.Name)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Price.Value)
-        </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.Count)
-        </td>
-        <td>
-            @(item.Count * item.Price.Value)
-        </td>
+    @Html.DropDownList("AppoitmentId", Model.AppoitmentList, "", htmlAttributes: new { @class = "form - control combobox" })
 
-        <td>
-            @Html.ActionLink("Edit", $"Edit", new { id = item.AppointmentResultId })
+    <input type="submit" value="Расчитать" class="btn btn-default" />
+}
 
-            @Html.ActionLink("Delete", $"Delete", new { id = item.AppointmentResultId }, new { onclick = "return confirm('Вы уверены?')", @class = "button" })
-        </td>
-    </tr>
-    }
-</table>
-Страница @(Model.AppointmentResults.PageCount < Model.AppointmentResults.PageNumber ? 0 : Model.AppointmentResults.PageNumber) из @Model.AppointmentResults.PageCount
 
-@Html.PagedListPager(Model.AppointmentResults, page => Url.Action($"Index", new { page }))
+
+
+    <table class="table">
+        <tr>
+            <th>Доктор</th>
+            <th>Пациент</th>
+            <th>Дата</th>
+            <th>Услуга</th>
+            <th>Цена</th>
+            <th>Количество</th>
+            <th>Сумма</th>
+            <th></th>
+        </tr>
+        @{var id = Model.AppointmentResults.FirstOrDefault().AppoitmentId;}
+        @{double summ = 0;}
+        @foreach (var item in Model.AppointmentResults)
+        {
+
+            if (item.AppoitmentId != id)
+            {
+                <tr>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td></td>
+                    <td>
+                        @summ
+                    </td>
+
+                    <td></td>
+                </tr>
+                id = item.AppoitmentId;
+                summ = 0;
+            }
+
+
+
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Appoitment.User.LastName)  @Html.DisplayFor(modelItem => item.Appoitment.User.FirstName) @Html.DisplayFor(modelItem => item.Appoitment.User.MiddleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Appoitment.Patient.LastName)  @Html.DisplayFor(modelItem => item.Appoitment.Patient.FirstName) @Html.DisplayFor(modelItem => item.Appoitment.Patient.MiddleName)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Appoitment.VisitDate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price.Services.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Price.Value)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Count)
+                </td>
+                <td>
+                    @(item.Count * item.Price.Value)
+                    @{ summ = summ + item.Count * item.Price.Value;}
+                </td>
+
+                <td>
+                    @Html.ActionLink("Edit", $"Edit", new { id = item.AppointmentResultId })
+
+                    @Html.ActionLink("Delete", $"Delete", new { id = item.AppointmentResultId }, new { onclick = "return confirm('Вы уверены?')", @class = "button" })
+                </td>
+            </tr>
+
+        }
+
+    
+        <tr>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td>
+                @summ
+            </td>
+
+            <td></td>
+        </tr>
+       
+    </table>
+    Страница @(Model.AppointmentResults.PageCount < Model.AppointmentResults.PageNumber ? 0 : Model.AppointmentResults.PageNumber) из @Model.AppointmentResults.PageCount
+
+    @Html.PagedListPager(Model.AppointmentResults, page => Url.Action($"Index", new { page }))

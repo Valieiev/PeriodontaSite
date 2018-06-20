@@ -13,6 +13,11 @@ namespace PeriodontalSite1.ViewModel.Appointment
 {
     public class AppointmentsViewModel
     {
+
+        [Display(Name = "Дата:")]
+        public DateTime? DateStart { get; set; }
+
+
         [Display(Name = "AppointmentId")]
         [Required]
         public int AppointmentsId { get; set; }

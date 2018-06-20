@@ -1,0 +1,97 @@
+﻿@using PagedList.Mvc
+@model PeriodontalSite1.ViewModel.AppointmentsResult.AppointmentResultStatisticViewModel
+
+@{
+    /**/
+
+    ViewBag.Title = "Расчет цены:";
+}
+
+<h2>Cтатистика</h2>
+
+<form method="get">
+    <div class="form-group">
+        @Html.LabelFor(m => m.DateStart, new { htmlAttribute = new { @class = "DateStart" } })
+        @Html.EditorFor(m => m.DateStart, new { htmlAttribute = new { @class = "DateStart" } })
+
+        @Html.LabelFor(m => m.DateEnd, new { htmlAttribute = new { @class = "DateEnd" } })
+        @Html.EditorFor(m => m.DateEnd, new { htmlAttribute = new { @class = "DateEnd" } })
+
+
+        @Html.LabelFor(m => m.Doctor, new { @class = "Doctor" })
+ 
+        @Html.DropDownListFor(model => model.Doctor, new SelectList(Model.Users, "Value", "Text", new { htmlAttributes = new { @class = "form-control" } }))
+
+
+
+        <input type="submit" value="Фильтр" class="btn btn-default" />
+
+    </div>
+</form>
+
+
+
+<table class="table">
+    <tr>
+        <th>Доктор</th>
+        <th>Пациент</th>
+        <th>Дата</th>
+        <th>Услуга</th>
+        <th>Цена</th>
+        <th>Количество</th>
+        <th>Сумма</th>
+        <th></th>
+    </tr>
+    @{double summ = 0;}
+    @foreach (var item in Model.AppoitmentRes)
+    {
+
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Appoitment.User.LastName)  @Html.DisplayFor(modelItem => item.Appoitment.User.FirstName) @Html.DisplayFor(modelItem => item.Appoitment.User.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Appoitment.Patient.LastName)  @Html.DisplayFor(modelItem => item.Appoitment.Patient.FirstName) @Html.DisplayFor(modelItem => item.Appoitment.Patient.MiddleName)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Appoitment.VisitDate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price.Services.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Price.Value)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Count)
+            </td>
+            <td>
+                @(item.Count * item.Price.Value)
+            </td>
+                @{summ = summ + item.Count * item.Price.Value;}
+        </tr>
+
+                    }
+</table>
+    Страница @(Model.AppoitmentRes.PageCount < Model.AppoitmentRes.PageNumber ? 0 : Model.AppoitmentRes.PageNumber) из @Model.AppoitmentRes.PageCount
+
+    @Html.PagedListPager(Model.AppoitmentRes, page => Url.Action($"Index", new { page }))
+<div class="form-group">
+    Всего приемов: @Model.AppoitmentRes.Count | Сумма за примы: @summ
+</div>
+
+    <script type="text/javascript">
+
+        $(function () {
+            $('#DateStart').datepicker({
+                format: "yyyy.mm.dd"
+
+            });
+        });
+        $(function () {
+            $('#DateEnd').datepicker({
+                format: "yyyy.mm.dd",
+                minDate: new Date()
+            });
+        });
+    </script>

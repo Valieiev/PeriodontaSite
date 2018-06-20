@@ -8,9 +8,11 @@ using PeriodontalSite1.Repository;
 using PeriodontalSite1.ViewModel.Appointment;
 using System;
 using System.Collections.Generic;
+using System.Data.Entity.Core.Objects;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using static PeriodontalSite1.Models.Appointments;
 
 namespace PeriodontalSite1.Controllers
 {
@@ -30,16 +32,26 @@ namespace PeriodontalSite1.Controllers
             }
         }
 
-        public ActionResult Index(int? page)
+        public ActionResult Index(int? page, DateTime? DateStart)
     {
-        int pageSize = 5;
-        int pageNumber = (page ?? 1);
-         var result = Appointment.Get().ToList().Map<List<AppointmentsViewModel>>();
+        int pageSize = 20;
+            List<AppointmentsViewModel> model = new List<AppointmentsViewModel>();
+            DateTime filter = new DateTime();
+            if (DateStart != null) {  filter = (DateTime)DateStart; }
 
+        int pageNumber = (page ?? 1);
+            if (DateStart != null)
+            {
+                model = Appointment.Get().Where(a => a.VisitDate.Date == filter.Date).ToList().Map<List<AppointmentsViewModel>>();
+            }
+            else
+            {
+                model = Appointment.Get().ToList().Map<List<AppointmentsViewModel>>();
+            }
             return View(new AppointmentsViewModel()
         {
-
-            Appointments = result.ToPagedList(pageNumber, pageSize)
+            DateStart = DateTime.Now,
+            Appointments = model.ToPagedList(pageNumber, pageSize)
         }
 
          );
@@ -87,6 +99,7 @@ namespace PeriodontalSite1.Controllers
                     Text = s.LastName + " " + s.FirstName + " " + s.MiddleName,
                     Value = Convert.ToString(s.PatientsId)
                 }).ToList();
+             
                 model.Users = patients;
                 model.Patients = dentists;
                 return View(model);
@@ -97,7 +110,7 @@ namespace PeriodontalSite1.Controllers
             {
                 PatientId = model.PatientId,
                 UserId = model.UserId,
-                AppointmentStatus = model.AppointmentStatus,
+                AppointmentStatus = Status.Pending,
                 VisitDate = model.VisitDate     
             };
 

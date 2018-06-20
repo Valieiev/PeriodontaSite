@@ -17,6 +17,8 @@ namespace PeriodontalSite1.Models
         public string LastName { get; set; }
         public string MiddleName { get; set; }
         public DateTime BirthDate { get; set; }
+
+        [Display(Name = "Номер телефона")]
         public string PhoneNumber { get; set; }
         public ICollection<Appointments> Appointments { get; set; }
         public Patients()
