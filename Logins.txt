@@ -1,0 +1,2 @@
+admin@admin.com     Aa_1234
+Doctor@doctor.com   Aa_1234
